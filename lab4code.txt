@@ -1,0 +1,81 @@
+#include <iostream>
+#include <clocale>
+using namespace std;
+
+void PrintMass(int *m, int n) {
+	for (int i = 0; i < n; i++) {
+		cout << m[i] << ' ';
+	}
+	cout << endl;
+}
+
+void DellElem(int* m, int& n, int E) {   //(arr, lenght_arr, element)
+	bool flag = false;
+	for (int i = 0; i < n; i++) {
+		if (flag) {
+			m[i-1] = m[i];
+		}
+		else if (m[i] == E) {
+			flag = true;
+		}
+	}
+	if (flag) {
+		n--;
+	}
+	else {
+		cout << "Елемент не найден\n";
+	}
+}
+
+void MoveMass(int* m, int& n, int& move) { //(arr, lenght_arr, move   -> !!! ->)
+	if (move <= 0 || move == n) {
+		std::cout << "Сдвига нет!\n";
+	}
+	else {
+		move %= n;
+		int tMass[100];
+		int j = 0;
+		for (int i = (n-move); i < n; i++) {
+			tMass[j] = m[i];
+			j++;
+		}
+		j = m[move%n];
+		for (int i = n; i > move-2; i--) {
+			m[i] = m[i - move];
+		}
+		for (int i = 0; i < move; i++) {
+			m[i] = tMass[i];
+		}
+	}
+}
+
+int main()
+{
+	setlocale(LC_ALL, "RU");
+
+	int mass[100];
+	int N;
+
+	cout << "Введите размер массива: ";
+	cin >> N;
+	for (int i = 0; i < N; i++) {
+		mass[i] = -500 + rand() % 1000;
+	}
+	PrintMass(mass, N);
+
+	int delelem;
+	cout << "Какой элемент нужно удалить: ";
+	cin >> delelem;
+	
+	DellElem(mass, N, delelem);
+
+	int K;
+	cout << "Введите сдвиг массива: ";
+	cin >> K;
+
+	MoveMass(mass, N, K);
+
+	PrintMass(mass, N);
+
+	return 0;
+}
