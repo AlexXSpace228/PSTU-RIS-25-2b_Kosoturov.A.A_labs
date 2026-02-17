@@ -78,4 +78,5 @@ int main()
 	PrintMass(mass, N);
 
 	return 0;
+
 }
