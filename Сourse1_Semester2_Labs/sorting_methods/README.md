@@ -1,5 +1,6 @@
 # Методы сортировки
 ### Метод сортировки - пузырьком  
+![ ]([https://www.example.com/image.jpg](https://images.openai.com/static-rsc-4/xMhxQ7wwnZGxvc_GHba0_rhA0q_1jSEp9QTQ9RdVvX2Rcd0nDzZDJLKyS3VVbOqYATam_woS_Hzk6szHK11h-a7vNrS4Mf3sPlV20dLjH6wqjnwJZitkT0sOcm7lzBHv7L9fXhJne1IQBJDpc4Yo51Y7j5R8vI00snx_5m9dsNQ?purpose=inline))
 #### Описание:  
 Простой алгоритм, который многократно проходит по массиву, сравнивая соседние элементы и меняя их местами, если они стоят в неправильном порядке. После каждой итерации самый большой элемент «всплывает» в конец массива.  
 
