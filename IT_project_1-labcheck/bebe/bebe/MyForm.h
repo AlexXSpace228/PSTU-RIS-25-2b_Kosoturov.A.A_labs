@@ -323,9 +323,9 @@ private: System::Void добавитьРаботуToolStripMenuItem_Click(System
 	item->SubItems->Add("");
 
 	listView1->Items->Add(item);
-	/*
+	
 	MyForm1^ form = gcnew MyForm1();
-	form->ShowDialog();*/
+	form->ShowDialog();
 }
 private: System::Void MyForm_Load(System::Object^ sender, System::EventArgs^ e) {
 }
