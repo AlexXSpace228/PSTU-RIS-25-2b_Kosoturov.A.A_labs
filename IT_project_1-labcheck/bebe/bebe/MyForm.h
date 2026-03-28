@@ -1,4 +1,4 @@
-#pragma once
+п»ї#pragma once
 #include <windows.h>
 
 namespace bebe {
@@ -11,9 +11,9 @@ namespace bebe {
 	using namespace System::Drawing;
 	using namespace Microsoft::VisualBasic;
 	/// <summary>
-	/// Сводка для MyForm
+	/// РЎРІРѕРґРєР° РґР»СЏ MyForm
 	/// </summary>
-	/*
+	
 	public ref class MyForm1 : public System::Windows::Forms::Form
 	{
 	public:
@@ -21,13 +21,13 @@ namespace bebe {
 		{
 			InitializeComponent();
 			//
-			//TODO: добавьте код конструктора
+			//TODO: РґРѕР±Р°РІСЊС‚Рµ РєРѕРґ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂР°
 			//
 		}
 
 	protected:
 		/// <summary>
-		/// Освободить все используемые ресурсы.
+		/// РћСЃРІРѕР±РѕРґРёС‚СЊ РІСЃРµ РёСЃРїРѕР»СЊР·СѓРµРјС‹Рµ СЂРµСЃСѓСЂСЃС‹.
 		/// </summary>
 		~MyForm1()
 		{
@@ -46,14 +46,14 @@ namespace bebe {
 
 	private:
 		/// <summary>
-		/// Обязательная переменная конструктора.
+		/// РћР±СЏР·Р°С‚РµР»СЊРЅР°СЏ РїРµСЂРµРјРµРЅРЅР°СЏ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂР°.
 		/// </summary>
 		System::ComponentModel::Container^ components;
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
-		/// Требуемый метод для поддержки конструктора — не изменяйте 
-		/// содержимое этого метода с помощью редактора кода.
+		/// РўСЂРµР±СѓРµРјС‹Р№ РјРµС‚РѕРґ РґР»СЏ РїРѕРґРґРµСЂР¶РєРё РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂР° вЂ” РЅРµ РёР·РјРµРЅСЏР№С‚Рµ 
+		/// СЃРѕРґРµСЂР¶РёРјРѕРµ СЌС‚РѕРіРѕ РјРµС‚РѕРґР° СЃ РїРѕРјРѕС‰СЊСЋ СЂРµРґР°РєС‚РѕСЂР° РєРѕРґР°.
 		/// </summary>
 		void InitializeComponent(void)
 		{
@@ -93,7 +93,7 @@ namespace bebe {
 			this->label1->Name = L"label1";
 			this->label1->Size = System::Drawing::Size(52, 13);
 			this->label1->TabIndex = 3;
-			this->label1->Text = L"Введите ";
+			this->label1->Text = L"Р’РІРµРґРёС‚Рµ ";
 			// 
 			// label2
 			// 
@@ -102,7 +102,7 @@ namespace bebe {
 			this->label2->Name = L"label2";
 			this->label2->Size = System::Drawing::Size(52, 13);
 			this->label2->TabIndex = 4;
-			this->label2->Text = L"Введите ";
+			this->label2->Text = L"Р’РІРµРґРёС‚Рµ ";
 			// 
 			// label3
 			// 
@@ -111,7 +111,7 @@ namespace bebe {
 			this->label3->Name = L"label3";
 			this->label3->Size = System::Drawing::Size(52, 13);
 			this->label3->TabIndex = 5;
-			this->label3->Text = L"Введите ";
+			this->label3->Text = L"Р’РІРµРґРёС‚Рµ ";
 			// 
 			// MyForm1
 			// 
@@ -135,7 +135,7 @@ namespace bebe {
 #pragma endregion
 	private: System::Void MyForm1_Load(System::Object^ sender, System::EventArgs^ e) {
 	}
-	};*/
+	};
 	public ref class MyForm : public System::Windows::Forms::Form
 	{
 	public:
@@ -147,17 +147,17 @@ namespace bebe {
 			listView1->GridLines = true;
 
 			listView1->Columns->Add("ID", 50);
-			listView1->Columns->Add("Название", 150);
-			listView1->Columns->Add("Статус", 120);
-			listView1->Columns->Add("Дедлайн", 120);
-			listView1->Columns->Add("Комментарий", 250);
-			listView1->Columns->Add("Что нужно сделать: ", 350);
+			listView1->Columns->Add("РќР°Р·РІР°РЅРёРµ", 150);
+			listView1->Columns->Add("РЎС‚Р°С‚СѓСЃ", 120);
+			listView1->Columns->Add("Р”РµРґР»Р°Р№РЅ", 120);
+			listView1->Columns->Add("РљРѕРјРјРµРЅС‚Р°СЂРёР№", 250);
+			listView1->Columns->Add("Р§С‚Рѕ РЅСѓР¶РЅРѕ СЃРґРµР»Р°С‚СЊ: ", 350);
 
 			ListViewItem^ item1 = gcnew ListViewItem("1");
-			item1->SubItems->Add("Лаба 0.0 ( test )");
+			item1->SubItems->Add("Р›Р°Р±Р° 0.0 ( test )");
 			item1->SubItems->Add("done");
 			item1->SubItems->Add("01.01.2000");
-			item1->SubItems->Add("ааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааа");
+			item1->SubItems->Add("Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°Р°");
 
 			listView1->Items->Add(item1);
 
@@ -165,7 +165,7 @@ namespace bebe {
 
 	protected:
 		/// <summary>
-		/// Освободить все используемые ресурсы.
+		/// РћСЃРІРѕР±РѕРґРёС‚СЊ РІСЃРµ РёСЃРїРѕР»СЊР·СѓРµРјС‹Рµ СЂРµСЃСѓСЂСЃС‹.
 		/// </summary>
 		~MyForm()
 		{
@@ -182,7 +182,7 @@ namespace bebe {
 	private: System::Windows::Forms::ListView^ listView1;
 	private: System::Windows::Forms::ToolStripMenuItem^ ghToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^ helpToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripMenuItem^ добавитьРаботуToolStripMenuItem;
+	private: System::Windows::Forms::ToolStripMenuItem^ РґРѕР±Р°РІРёС‚СЊР Р°Р±РѕС‚СѓToolStripMenuItem;
 	private: System::Windows::Forms::MenuStrip^ menuStrip1;
 
 
@@ -197,14 +197,14 @@ namespace bebe {
 
 	private:
 		/// <summary>
-		/// Обязательная переменная конструктора.
+		/// РћР±СЏР·Р°С‚РµР»СЊРЅР°СЏ РїРµСЂРµРјРµРЅРЅР°СЏ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂР°.
 		/// </summary>
 
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
-		/// Требуемый метод для поддержки конструктора — не изменяйте 
-		/// содержимое этого метода с помощью редактора кода.
+		/// РўСЂРµР±СѓРµРјС‹Р№ РјРµС‚РѕРґ РґР»СЏ РїРѕРґРґРµСЂР¶РєРё РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂР° вЂ” РЅРµ РёР·РјРµРЅСЏР№С‚Рµ 
+		/// СЃРѕРґРµСЂР¶РёРјРѕРµ СЌС‚РѕРіРѕ РјРµС‚РѕРґР° СЃ РїРѕРјРѕС‰СЊСЋ СЂРµРґР°РєС‚РѕСЂР° РєРѕРґР°.
 		/// </summary>
 		void InitializeComponent(void)
 		{
@@ -212,7 +212,7 @@ namespace bebe {
 			this->listView1 = (gcnew System::Windows::Forms::ListView());
 			this->ghToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->helpToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->добавитьРаботуToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->РґРѕР±Р°РІРёС‚СЊР Р°Р±РѕС‚СѓToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
 			this->menuStrip1->SuspendLayout();
 			this->SuspendLayout();
@@ -231,7 +231,7 @@ namespace bebe {
 			// 
 			this->ghToolStripMenuItem->Name = L"ghToolStripMenuItem";
 			this->ghToolStripMenuItem->Size = System::Drawing::Size(65, 20);
-			this->ghToolStripMenuItem->Text = L"Справка";
+			this->ghToolStripMenuItem->Text = L"РЎРїСЂР°РІРєР°";
 			this->ghToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::ghToolStripMenuItem_Click);
 			// 
 			// helpToolStripMenuItem
@@ -241,18 +241,18 @@ namespace bebe {
 			this->helpToolStripMenuItem->Text = L"Help";
 			this->helpToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::helpToolStripMenuItem_Click);
 			// 
-			// добавитьРаботуToolStripMenuItem
+			// РґРѕР±Р°РІРёС‚СЊР Р°Р±РѕС‚СѓToolStripMenuItem
 			// 
-			this->добавитьРаботуToolStripMenuItem->Name = L"добавитьРаботуToolStripMenuItem";
-			this->добавитьРаботуToolStripMenuItem->Size = System::Drawing::Size(112, 20);
-			this->добавитьРаботуToolStripMenuItem->Text = L"Добавить работу";
-			this->добавитьРаботуToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::добавитьРаботуToolStripMenuItem_Click);
+			this->РґРѕР±Р°РІРёС‚СЊР Р°Р±РѕС‚СѓToolStripMenuItem->Name = L"РґРѕР±Р°РІРёС‚СЊР Р°Р±РѕС‚СѓToolStripMenuItem";
+			this->РґРѕР±Р°РІРёС‚СЊР Р°Р±РѕС‚СѓToolStripMenuItem->Size = System::Drawing::Size(112, 20);
+			this->РґРѕР±Р°РІРёС‚СЊР Р°Р±РѕС‚СѓToolStripMenuItem->Text = L"Р”РѕР±Р°РІРёС‚СЊ СЂР°Р±РѕС‚Сѓ";
+			this->РґРѕР±Р°РІРёС‚СЊР Р°Р±РѕС‚СѓToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::РґРѕР±Р°РІРёС‚СЊР Р°Р±РѕС‚СѓToolStripMenuItem_Click);
 			// 
 			// menuStrip1
 			// 
 			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {
 				this->ghToolStripMenuItem,
-					this->helpToolStripMenuItem, this->добавитьРаботуToolStripMenuItem
+					this->helpToolStripMenuItem, this->РґРѕР±Р°РІРёС‚СЊР Р°Р±РѕС‚СѓToolStripMenuItem
 			});
 			this->menuStrip1->Location = System::Drawing::Point(0, 0);
 			this->menuStrip1->Name = L"menuStrip1";
@@ -299,27 +299,27 @@ private: System::Void listView1_SelectedIndexChanged(System::Object^ sender, Sys
 }
 private: System::Void ghToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
 	MessageBox::Show(
-		"Это программа для учета лабораторных работ.\n\n"
-		"Функции:\n"
-		"- Добавление лабораторных\n"
-		"- Просмотр статуса\n"
-		"- Открытие папок",
-		"Справка",
+		"Р­С‚Рѕ РїСЂРѕРіСЂР°РјРјР° РґР»СЏ СѓС‡РµС‚Р° Р»Р°Р±РѕСЂР°С‚РѕСЂРЅС‹С… СЂР°Р±РѕС‚.\n\n"
+		"Р¤СѓРЅРєС†РёРё:\n"
+		"- Р”РѕР±Р°РІР»РµРЅРёРµ Р»Р°Р±РѕСЂР°С‚РѕСЂРЅС‹С…\n"
+		"- РџСЂРѕСЃРјРѕС‚СЂ СЃС‚Р°С‚СѓСЃР°\n"
+		"- РћС‚РєСЂС‹С‚РёРµ РїР°РїРѕРє",
+		"РЎРїСЂР°РІРєР°",
 		MessageBoxButtons::OK,
 		MessageBoxIcon::Information
 	);
 }
 private: System::Void helpToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
-	MessageBox::Show("Работа с программой:");
+	MessageBox::Show("Р Р°Р±РѕС‚Р° СЃ РїСЂРѕРіСЂР°РјРјРѕР№:");
 }
-private: System::Void добавитьРаботуToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
+private: System::Void РґРѕР±Р°РІРёС‚СЊР Р°Р±РѕС‚СѓToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
 	int id = listView1->Items->Count + 1;
 
 	ListViewItem^ item = gcnew ListViewItem(id.ToString());
 
-	item->SubItems->Add("Новая лабораторная");
+	item->SubItems->Add("РќРѕРІР°СЏ Р»Р°Р±РѕСЂР°С‚РѕСЂРЅР°СЏ");
 	item->SubItems->Add("not started");
-	item->SubItems->Add("—");
+	item->SubItems->Add("вЂ”");
 	item->SubItems->Add("");
 
 	listView1->Items->Add(item);
