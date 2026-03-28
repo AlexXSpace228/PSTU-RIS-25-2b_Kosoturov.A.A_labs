@@ -6,7 +6,7 @@
 #define NOMINMAX
 #include <windows.h>
 
-int maxx(int a, int b) {
+static int maxx(int a, int b) {
 	if (a > b) {
 		return a;
 	}
@@ -15,7 +15,7 @@ int maxx(int a, int b) {
 	}
 }
 
-int LINEsearch(int* arr, int size, int key) {
+static int LINEsearch(int* arr, int size, int key) {
 	for (int i = 0; i < size; i++) {
 		if (arr[i] == key) {
 			return i;
@@ -24,7 +24,7 @@ int LINEsearch(int* arr, int size, int key) {
 	return -1;
 }
 
-int BINsearch(int* arr, int n, int key)
+static int BINsearch(int* arr, int n, int key)
 {
 	bool flag = false;
 	int l = 0;
@@ -45,7 +45,7 @@ int BINsearch(int* arr, int n, int key)
 
 	return (flag) ? mid : -1;
 }
-int interpolsearch(int* arr, int size, int key)
+static int interpolsearch(int* arr, int size, int key)
 {
 	int left = 0;
 	int right = size - 1;
@@ -73,7 +73,7 @@ int interpolsearch(int* arr, int size, int key)
 	return -1;
 }
 
-int STRINGsearchKEY(std::string str, std::string substr)
+static int STRINGsearchKEY(std::string str, std::string substr)
 {
 	int strl = str.size();
 	int substrl = substr.size();
@@ -103,7 +103,7 @@ int STRINGsearchKEY(std::string str, std::string substr)
 	return res;
 }
 
-int boyerMooreSearch(std::string text, std::string pattern) {
+static int boyerMooreSearch(std::string text, std::string pattern) {
 
 	int textLen = text.length();
 	const int patternLen = pattern.length();
@@ -143,7 +143,7 @@ int boyerMooreSearch(std::string text, std::string pattern) {
 	return -1;
 }
 
-int horspoolSearch(std::string text, std::string pattern) {
+static int horspoolSearch(std::string text, std::string pattern) {
 	int textLen = text.length();
 	int patternLen = pattern.length();
 
@@ -179,14 +179,14 @@ int horspoolSearch(std::string text, std::string pattern) {
 	return -1;
 }
 
-void PrintMass(int* m, int l) {
+static void PrintMass(int* m, int l) {
 	for (int i = 0; i < l; i++) {
 		std::cout << m[i] << ' ';
 	}
 	std::cout << std::endl;
 }
 
-void SORTARR(int* arr, int size) {
+static void SORTARR(int* arr, int size) {
 	for (int i = 0; i < size - 1; i++) {
 		for (int k = i; k < size - 1; k++) {
 			if (arr[i] > arr[k + 1]) {
