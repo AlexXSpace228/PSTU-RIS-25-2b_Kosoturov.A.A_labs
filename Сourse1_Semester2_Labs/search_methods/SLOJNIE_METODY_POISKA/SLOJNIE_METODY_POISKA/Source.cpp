@@ -1,4 +1,4 @@
-#include <iostream>
+ï»¿#include <iostream>
 #include <string>
 #include <clocale>
 #include <limits>
@@ -210,55 +210,57 @@ int main() {
 	int ARRforSort[LEN]{ 9,12,0,0,1,10,10,5,6,9,1,1,3,5,9 };
 	SORTARR(ARRforSort, LEN);
 	int ky;
+	std::cout << "Ð˜Ð·Ð½Ð°Ñ‡Ð°Ð»ÑŒÐ½Ñ‹Ð¹ ÑÐ¿Ð¸ÑÐ¾Ðº: ";
+	PrintMass(ARR, LEN);
 	do {
-		std::cout << "=================================\n1 - Ëèíåéíûé\n2 - Áèíàðíûé\n3 - Èíòåðïîëÿöèîííûé\n4 - Ïðÿìîé ïîèñê ïîäñòðîêè â ñòðîêå\n5 - Àëãîðèòì Áîéåðà-Ìóðà\n6 - Àëãîðèòì Áîéåðà-Ìóðà-Õîðñïóëà\n=================================\n";
+		std::cout << "=================================\n1 - Ð›Ð¸Ð½ÐµÐ¹Ð½Ñ‹Ð¹\n2 - Ð‘Ð¸Ð½Ð°Ñ€Ð½Ñ‹Ð¹\n3 - Ð˜Ð½Ñ‚ÐµÑ€Ð¿Ð¾Ð»ÑÑ†Ð¸Ð¾Ð½Ð½Ñ‹Ð¹\n4 - ÐŸÑ€ÑÐ¼Ð¾Ð¹ Ð¿Ð¾Ð¸ÑÐº Ð¿Ð¾Ð´ÑÑ‚Ñ€Ð¾ÐºÐ¸ Ð² ÑÑ‚Ñ€Ð¾ÐºÐµ\n5 - ÐÐ»Ð³Ð¾Ñ€Ð¸Ñ‚Ð¼ Ð‘Ð¾Ð¹ÐµÑ€Ð°-ÐœÑƒÑ€Ð°\n6 - ÐÐ»Ð³Ð¾Ñ€Ð¸Ñ‚Ð¼ Ð‘Ð¾Ð¹ÐµÑ€Ð°-ÐœÑƒÑ€Ð°-Ð¥Ð¾Ñ€ÑÐ¿ÑƒÐ»Ð°\n=================================\n";
 		if (!(std::cin >> a)) {
 			std::cin.clear();
 			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-			std::cout << "Îøèáêà: íóæíî ââåñòè ÷èñëî\n";
+			std::cout << "ÐžÑˆÐ¸Ð±ÐºÐ°: Ð½ÑƒÐ¶Ð½Ð¾ Ð²Ð²ÐµÑÑ‚Ð¸ Ñ‡Ð¸ÑÐ»Ð¾\n";
 			continue;
 		}
 		switch (a)
 		{
 		case 1:
-			std::cout << "\nÂâåäèòå ÷èñëî (êëþ÷ ïîèñêà) int: ";
+			std::cout << "\nÐ’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ñ‡Ð¸ÑÐ»Ð¾ (ÐºÐ»ÑŽÑ‡ Ð¿Ð¾Ð¸ÑÐºÐ°) int: ";
 			if (!(std::cin >> ky)) {
 				std::cin.clear();
 				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-				std::cout << "Îøèáêà: íóæíî ââåñòè ÷èñëî\n";
+				std::cout << "ÐžÑˆÐ¸Ð±ÐºÐ°: Ð½ÑƒÐ¶Ð½Ð¾ Ð²Ð²ÐµÑÑ‚Ð¸ Ñ‡Ð¸ÑÐ»Ð¾\n";
 				continue;
 			}
 
-			std::cout << "Èíäåêñ ýëåìåíòà: " << LINEsearch(ARR, LEN, ky) << " â ñïèñêå: ";
+			std::cout << "Ð˜Ð½Ð´ÐµÐºÑ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð°: " << LINEsearch(ARR, LEN, ky) << " Ð² ÑÐ¿Ð¸ÑÐºÐµ: ";
 
 			PrintMass(ARR, LEN);
 
 			break;
 		case 2:
-			std::cout << "\nÂâåäèòå ÷èñëî (êëþ÷ ïîèñêà) int: ";
+			std::cout << "\nÐ’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ñ‡Ð¸ÑÐ»Ð¾ (ÐºÐ»ÑŽÑ‡ Ð¿Ð¾Ð¸ÑÐºÐ°) int: ";
 			if (!(std::cin >> ky)) {
 				std::cin.clear();
 				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-				std::cout << "Îøèáêà: íóæíî ââåñòè ÷èñëî\n";
+				std::cout << "ÐžÑˆÐ¸Ð±ÐºÐ°: Ð½ÑƒÐ¶Ð½Ð¾ Ð²Ð²ÐµÑÑ‚Ð¸ Ñ‡Ð¸ÑÐ»Ð¾\n";
 				continue;
 			}
-			std::cout << "Äëÿ ðàáîòû ñïèñîê äîëæåí áûòü îòñîðòèðîâàí!\n";
-			std::cout << "Èíäåêñ ýëåìåíòà: " << BINsearch(ARRforSort, LEN, ky) << " â ñïèñêå: ";
+			std::cout << "Ð”Ð»Ñ Ñ€Ð°Ð±Ð¾Ñ‚Ñ‹ ÑÐ¿Ð¸ÑÐ¾Ðº Ð´Ð¾Ð»Ð¶ÐµÐ½ Ð±Ñ‹Ñ‚ÑŒ Ð¾Ñ‚ÑÐ¾Ñ€Ñ‚Ð¸Ñ€Ð¾Ð²Ð°Ð½!\n";
+			std::cout << "Ð˜Ð½Ð´ÐµÐºÑ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð°: " << BINsearch(ARRforSort, LEN, ky) << " Ð² ÑÐ¿Ð¸ÑÐºÐµ: ";
 
 			PrintMass(ARR, LEN);
 
 			break;
 		case 3:
-			std::cout << "\nÂâåäèòå ÷èñëî (êëþ÷ ïîèñêà) int: ";
+			std::cout << "\nÐ’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ñ‡Ð¸ÑÐ»Ð¾ (ÐºÐ»ÑŽÑ‡ Ð¿Ð¾Ð¸ÑÐºÐ°) int: ";
 			if (!(std::cin >> ky)) {
 				std::cin.clear();
 				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-				std::cout << "Îøèáêà: íóæíî ââåñòè ÷èñëî\n";
+				std::cout << "ÐžÑˆÐ¸Ð±ÐºÐ°: Ð½ÑƒÐ¶Ð½Ð¾ Ð²Ð²ÐµÑÑ‚Ð¸ Ñ‡Ð¸ÑÐ»Ð¾\n";
 				continue;
 			}
 
-			std::cout << "Äëÿ ðàáîòû ñïèñîê äîëæåí áûòü îòñîðòèðîâàí!\n";
-			std::cout << "Èíäåêñ ýëåìåíòà: " << interpolsearch(ARRforSort, LEN, ky) << " â ñïèñêå: ";
+			std::cout << "Ð”Ð»Ñ Ñ€Ð°Ð±Ð¾Ñ‚Ñ‹ ÑÐ¿Ð¸ÑÐ¾Ðº Ð´Ð¾Ð»Ð¶ÐµÐ½ Ð±Ñ‹Ñ‚ÑŒ Ð¾Ñ‚ÑÐ¾Ñ€Ñ‚Ð¸Ñ€Ð¾Ð²Ð°Ð½!\n";
+			std::cout << "Ð˜Ð½Ð´ÐµÐºÑ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð°: " << interpolsearch(ARRforSort, LEN, ky) << " Ð² ÑÐ¿Ð¸ÑÐºÐµ: ";
 
 			PrintMass(ARRforSort, LEN);
 
@@ -266,35 +268,35 @@ int main() {
 		case 4:
 			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-			std::cout << "Ââåäèòå ñòðîêó: ";
+			std::cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ ÑÑ‚Ñ€Ð¾ÐºÑƒ: ";
 			getline(std::cin, S);
 
-			std::cout << "Ââåäèòå êëþ÷ äëÿ ïîèñêà: ";
+			std::cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ ÐºÐ»ÑŽÑ‡ Ð´Ð»Ñ Ð¿Ð¾Ð¸ÑÐºÐ°: ";
 			getline(std::cin, key);
 
-			std::cout << "Èíäåêñ êëþ÷à â ñòðîêå: " << STRINGsearchKEY(S, key) << std::endl;
+			std::cout << "Ð˜Ð½Ð´ÐµÐºÑ ÐºÐ»ÑŽÑ‡Ð° Ð² ÑÑ‚Ñ€Ð¾ÐºÐµ: " << STRINGsearchKEY(S, key) << std::endl;
 			break;
 		case 5:
 			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-			std::cout << "Ââåäèòå ñòðîêó: ";
+			std::cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ ÑÑ‚Ñ€Ð¾ÐºÑƒ: ";
 			getline(std::cin, S);
 
-			std::cout << "Ââåäèòå êëþ÷ äëÿ ïîèñêà: ";
+			std::cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ ÐºÐ»ÑŽÑ‡ Ð´Ð»Ñ Ð¿Ð¾Ð¸ÑÐºÐ°: ";
 			getline(std::cin, key);
 
-			std::cout << "Èíäåêñ êëþ÷à â ñòðîêå: " << boyerMooreSearch(S, key) << std::endl;
+			std::cout << "Ð˜Ð½Ð´ÐµÐºÑ ÐºÐ»ÑŽÑ‡Ð° Ð² ÑÑ‚Ñ€Ð¾ÐºÐµ: " << boyerMooreSearch(S, key) << std::endl;
 			break;
 		case 6:
 			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-			std::cout << "Ââåäèòå ñòðîêó: ";
+			std::cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ ÑÑ‚Ñ€Ð¾ÐºÑƒ: ";
 			getline(std::cin, S);
 
-			std::cout << "Ââåäèòå êëþ÷ äëÿ ïîèñêà: ";
+			std::cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ ÐºÐ»ÑŽÑ‡ Ð´Ð»Ñ Ð¿Ð¾Ð¸ÑÐºÐ°: ";
 			getline(std::cin, key);
 
-			std::cout << "Èíäåêñ êëþ÷à â ñòðîêå: " << horspoolSearch(S, key) << std::endl;
+			std::cout << "Ð˜Ð½Ð´ÐµÐºÑ ÐºÐ»ÑŽÑ‡Ð° Ð² ÑÑ‚Ñ€Ð¾ÐºÐµ: " << horspoolSearch(S, key) << std::endl;
 			break;
 		default:
 			break;
