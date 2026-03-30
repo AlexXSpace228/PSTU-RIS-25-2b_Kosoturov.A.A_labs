@@ -301,7 +301,7 @@ private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e
 
 	protected:
 		/// <summary>
-		/// Освободить все используемые ресурсы.
+		/// Освободить все используемые ресурсы. i=
 		/// </summary>
 		~MyForm()
 		{
