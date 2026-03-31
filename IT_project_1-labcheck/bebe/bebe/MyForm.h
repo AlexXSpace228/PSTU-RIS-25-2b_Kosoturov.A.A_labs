@@ -33,7 +33,8 @@ namespace bebe {
 	private: System::Windows::Forms::TextBox^ textBox4;
 	public:
 	private: System::Windows::Forms::TextBox^ textBox5;
-	private: System::Windows::Forms::MonthCalendar^ monthCalendar1;
+	private: System::Windows::Forms::Label^ label5;
+
 		   String^ tasks;
 	protected:
 		/// <summary>
@@ -87,7 +88,7 @@ namespace bebe {
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->textBox4 = (gcnew System::Windows::Forms::TextBox());
 			this->textBox5 = (gcnew System::Windows::Forms::TextBox());
-			this->monthCalendar1 = (gcnew System::Windows::Forms::MonthCalendar());
+			this->label5 = (gcnew System::Windows::Forms::Label());
 			this->SuspendLayout();
 			// 
 			// textBox1
@@ -155,8 +156,8 @@ namespace bebe {
 			// checkBox1
 			// 
 			this->checkBox1->AutoSize = true;
-			this->checkBox1->Location = System::Drawing::Point(31, 244);
-			this->checkBox1->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->checkBox1->Location = System::Drawing::Point(81, 244);
+			this->checkBox1->Margin = System::Windows::Forms::Padding(2);
 			this->checkBox1->Name = L"checkBox1";
 			this->checkBox1->Size = System::Drawing::Size(55, 17);
 			this->checkBox1->TabIndex = 7;
@@ -167,8 +168,8 @@ namespace bebe {
 			// checkBox2
 			// 
 			this->checkBox2->AutoSize = true;
-			this->checkBox2->Location = System::Drawing::Point(31, 223);
-			this->checkBox2->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->checkBox2->Location = System::Drawing::Point(81, 223);
+			this->checkBox2->Margin = System::Windows::Forms::Padding(2);
 			this->checkBox2->Name = L"checkBox2";
 			this->checkBox2->Size = System::Drawing::Size(85, 17);
 			this->checkBox2->TabIndex = 8;
@@ -179,8 +180,8 @@ namespace bebe {
 			// checkBox3
 			// 
 			this->checkBox3->AutoSize = true;
-			this->checkBox3->Location = System::Drawing::Point(121, 223);
-			this->checkBox3->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->checkBox3->Location = System::Drawing::Point(180, 223);
+			this->checkBox3->Margin = System::Windows::Forms::Padding(2);
 			this->checkBox3->Name = L"checkBox3";
 			this->checkBox3->Size = System::Drawing::Size(45, 17);
 			this->checkBox3->TabIndex = 9;
@@ -191,8 +192,8 @@ namespace bebe {
 			// checkBox4
 			// 
 			this->checkBox4->AutoSize = true;
-			this->checkBox4->Location = System::Drawing::Point(121, 244);
-			this->checkBox4->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->checkBox4->Location = System::Drawing::Point(180, 244);
+			this->checkBox4->Margin = System::Windows::Forms::Padding(2);
 			this->checkBox4->Name = L"checkBox4";
 			this->checkBox4->Size = System::Drawing::Size(56, 17);
 			this->checkBox4->TabIndex = 10;
@@ -203,7 +204,7 @@ namespace bebe {
 			// button1
 			// 
 			this->button1->Location = System::Drawing::Point(137, 276);
-			this->button1->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->button1->Margin = System::Windows::Forms::Padding(2);
 			this->button1->Name = L"button1";
 			this->button1->Size = System::Drawing::Size(46, 19);
 			this->button1->TabIndex = 11;
@@ -225,11 +226,16 @@ namespace bebe {
 			this->textBox5->Size = System::Drawing::Size(141, 20);
 			this->textBox5->TabIndex = 13;
 			// 
-			// monthCalendar1
+			// label5
 			// 
-			this->monthCalendar1->Location = System::Drawing::Point(177, 150);
-			this->monthCalendar1->Name = L"monthCalendar1";
-			this->monthCalendar1->TabIndex = 14;
+			this->label5->AutoSize = true;
+			this->label5->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->label5->Location = System::Drawing::Point(94, 191);
+			this->label5->Name = L"label5";
+			this->label5->Size = System::Drawing::Size(142, 18);
+			this->label5->TabIndex = 14;
+			this->label5->Text = L"Что нужно сделать";
 			// 
 			// MyForm1
 			// 
@@ -237,7 +243,7 @@ namespace bebe {
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Stretch;
 			this->ClientSize = System::Drawing::Size(333, 305);
-			this->Controls->Add(this->monthCalendar1);
+			this->Controls->Add(this->label5);
 			this->Controls->Add(this->textBox5);
 			this->Controls->Add(this->textBox4);
 			this->Controls->Add(this->button1);

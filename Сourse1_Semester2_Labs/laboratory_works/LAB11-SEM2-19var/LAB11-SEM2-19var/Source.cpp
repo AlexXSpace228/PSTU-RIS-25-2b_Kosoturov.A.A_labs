@@ -69,6 +69,26 @@ void PopS(Stack<T>& tmp)
 	}
 };
 
+template <class T>
+void PrintStack(Stack<T>& s)
+{
+	if (s.head == nullptr)
+	{
+		std::cout << "Стек пуст\n";
+		return;
+	}
+
+	FODE<T>* cur = s.head;
+
+	while (cur != nullptr)
+	{
+		std::cout << cur->data << " ";
+		cur = cur->next_ptr;
+	}
+
+	std::cout << std::endl;
+}
+
 //двунаправленный
 struct Node
 {
@@ -444,40 +464,30 @@ static void popFRONTone(Lister1& list) {
 
 static void DeleteEl11(Lister1& l, std::string del)
 {
-	point* cur = l.head_node;
-	if (cur->key == del)
-	{
-		popFRONTone(l);
+	if (l.head_node == nullptr)
 		return;
+
+	// Удаление головы
+	while (l.head_node && l.head_node->key == del)
+	{
+		point* tmp = l.head_node;
+		l.head_node = l.head_node->next;
+		delete tmp;
 	}
-	while (cur != nullptr)
+
+	point* cur = l.head_node;
+
+	while (cur && cur->next)
 	{
 		if (cur->next->key == del)
 		{
-			point* toDelete = cur->next; // сохраняем удаляемый узел
+			point* toDelete = cur->next;
+			cur->next = toDelete->next;
 
-			if (toDelete == l.head_node && toDelete == l.tail_node)
-			{
-				// единственный элемент
-				l.head_node = nullptr;
-				l.tail_node = nullptr;
-			}
-			else if (toDelete == l.head_node)
-			{
-				// удаление головы
-				l.head_node = toDelete->next;
-			}
-			else if (toDelete == l.tail_node)
-			{
-				l.tail_node->next = nullptr;
-			}
-			else
-			{
-				// удаление из середины
-				cur->next = toDelete->next;
-			}
+			if (toDelete == l.tail_node)
+				l.tail_node = cur;
 
-			delete toDelete; // удаляем сохраненный узел
+			delete toDelete;
 		}
 		else
 		{
@@ -658,6 +668,25 @@ void AddElements(Queue* queue, int count, int number)
 	}
 }
 
+void PrintQueue(Queue* queue)
+{
+	if (QueueIsEmpty(queue))
+	{
+		std::cout << "Очередь пуста\n";
+		return;
+	}
+
+	QNode* cur = queue->head;
+
+	while (cur != nullptr)
+	{
+		std::cout << cur->key << " ";
+		cur = cur->next;
+	}
+
+	std::cout << std::endl;
+}
+
 Queue* CreateQueue(int size)
 {
 	Queue* queue = new Queue; // Создание пустой очереди
@@ -733,13 +762,21 @@ int main() {
 
 		case 3: {
 			Stack<std::string> s;
+			SetStack(s); // ОБЯЗАТЕЛЬНО
 
-			Push(s, std::string("A"));
-			Push(s, std::string("B"));
-			Push(s, std::string("C"));
+			Push(s, std::string("Aff"));
+			Push(s, std::string("ggy"));
+			Push(s, std::string("KKK"));
+
+			std::cout << "Стек:\n";
+			PrintStack(s);
 
 			std::cout << "Pop...\n";
 			PopS(s);
+
+			std::cout << "После удаления:\n";
+			PrintStack(s);
+
 			break;
 		}
 
@@ -755,6 +792,8 @@ int main() {
 			std::cin >> k;
 
 			RemoveElement(q, k);
+
+			PrintQueue(q);
 			break;
 		}
 
@@ -769,153 +808,4 @@ int main() {
 	} while (choice != 0);
 
 	return 0;
-
-	/*
-	List list;
-	int N, K, num;
-	std::string deleting, temp;
-
-	std::cout << "Написать функцию для создания списка. Функция может создавать пустой список, а затем добавлять в него элементы.\n\n";
-	std::cout << "Укажите количество элементов списка: ";
-
-	std::cin >> N; // N - длинна массива
-	FillList(list, N);
-
-	std::cout << "\nНаписать функцию для печати списка. Функция должна предусматривать вывод сообщения, если список пустой.\n\n";
-
-	PrintList(list);
-
-	std::cout << "\nНаписать функции для удаления и добавления элементов списка в соответствии со своим вариантом (Удалить  К элементов с заданными номерами.).\n\n";
-
-	int deletingK;
-	std::cout << "Введите количество элементов которые хотите удалить: ";
-	std::cin >> deletingK;
-	for (int i = 0; i < deletingK; i++) {
-		std::cout << "Какой элемент вы хотите удалить?" << std::endl;
-		std::cin >> deleting;
-		DeleteEl(list, deleting);
-		PrintList(list);
-	}
-
-	std::cout << "Введите количество элементов, которые хотите добавить: ";
-	std::cin >> K;
-
-	if (K > 0) {
-		std::cout << "Введите номер элемента перед которым хотите добавить новые элементы: ";
-		std::cin >> num;
-		std::cout << "Вводите элементы: " << std::endl;
-		for (int i = 0; i < K; i++)
-		{
-			std::cout << (i+1) << " новый элемент: ";
-			std::cin >> temp;
-			InsertByIndex(list, temp, num - 1);
-		}
-		PrintList(list);
-	}
-	
-	std::string key, data;
-	std::cout << "Введите элемент после которого следует добавить новый: ";
-	std::cin >> key;
-	std::cout << "Введите новый элемент: ";
-	std::cin >> data;
-	InsertByKey(list, data, key);
-
-	PrintList(list);
-
-	std::cout << "Удаление элемента по номеру: ";
-
-	int k;
-	std::cin >> k;
-	POPByIndex(list, k);
-
-	PrintList(list);
-
-	std::string delEle;
-	std::cout << "Удаление элемента по ключу: ";
-	std::cin >> delEle;
-	DeleteEl(list, delEle);
-
-	PrintList(list);
-	*/
-	/*
-	List1 list1;
-	PushBack1(list1, ".");
-	PushBack1(list1, "4");
-	PushFront1(list1, "5");
-	PushBack1(list1, "2");
-
-	PrintList1(list1);
-	
-
-	Lister1 list;
-	int N, K, num;
-	std::string deleting, temp;
-
-
-	std::cout << "Укажите количество элементов списка: ";
-	std::cin >> N; // N - длинна массива
-	FillList11(list, N);
-	PrintList11(list);
-	PopBackone(list);
-	PrintList11(list);
-	PushFront1(list, "ggg");
-	PrintList11(list);
-	std::string s = "bbb";
-	DeleteEl11(list, s);
-	PrintList11(list);*/
-	return 0;
 }
-
-/*
-
-1. 11 лабу надо сделать для односвязных и двусвязных списков, неважно, что указано в твоём варианте. Для очередей и для стеков.
-2. Организовать функции:
-   2.1. Добавление элемента в конец/начало. +
-   2.2. Удаление элемента из конца и из начала. *
-   2.3. Удаление элемента по ключу. -
-   2.4. Удаление элемента по номеру. +
-   2.5. Добавление элемента по ключу. +
-   2.6. Добавление элемента по номеру. +
-3. Выполнить задание, которое указано в варианте.
-4. Учесть, что для списков нужно организовать два способа добавления элемента:
-	1 способ - функция, где хранится только головной узел. ----------> list1
-	2 способ - где хранятся и головной, и хвостовой узлы. +
-5. Обязательно нужно организовать вывод элементов. +
-6. В методичке есть постановка и шаги решения, в шагах около 10 пунктов? Не помню точно. Некоторые, которые в методичке, совпадают с теми, которые дала Полякова.
-Но, которые не совпадают, тоже желательно добавить в код.
-7. В очередях ещё организовать вставку элементов перед заданным номером.
-
-*/
-
-/*
-
-Постановка задачи
-
-Написать программу, в которой создаются динамиче-ские структуры и  выполнить их обработку в соответствии со своим вариантом.
-Для каждого вариант разработать следующие функции:
-1.	Создание списка. +
-2.	Добавление элемента в список (в соответствии со своим вариантом). +
-3.	Удаление элемента из списка (в соответствии со своим вариантом). +
-4.	Печать списка. +
-5.	Запись списка в файл. -
-6.	Уничтожение списка. - 
-7.	Восстановление списка из файла. -
-
-*/
-
-/*
-
-Порядок выполнения работы
-
-+ 1.	Написать функцию для создания списка. Функция может создавать пустой список, а затем добавлять в него элементы. 
-+ 2.	Написать функцию для печати списка. Функция должна предусматривать вывод сообщения, если список пустой.
-+ 3.	Написать функции для удаления и добавления элементов списка в соответствии со своим вариантом (Удалить  К элементов с заданными номерами.).
-+ 4.	Выполнить изменения в списке и печать списка после каждого изменения.
-- 5.	Написать функцию для записи списка в файл.
-- 6.	Написать функцию для уничтожения списка.
-- 7.	Записать список в файл, уничтожить его и выполнить печать (при печати должно быть выдано сообщение "Спи-сок пустой").
-- 8.	Написать функцию для восстановления списка из файла.
-- 9.	Восстановить список и распечатать его.
-- 10.	Уничтожить список.
-
-*/
