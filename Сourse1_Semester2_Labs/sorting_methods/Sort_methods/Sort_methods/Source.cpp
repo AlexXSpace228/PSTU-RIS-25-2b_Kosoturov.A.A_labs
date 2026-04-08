@@ -1,30 +1,27 @@
 ﻿#include <iostream>
 #include <cstdlib>
-<<<<<<< HEAD
-
+#include <vector>
+#include <algorithm>
+#include <ctime>
+#include <clocale>
+#include <limits>
 
 void PrintMass(int* m, int n) {
     for (int i = 0; i < n; i++) {
         std::cout << m[i] << ' ';
-=======
-#include <vector>
+    }
+}
 
-static void PrintMASSVector(const std::vector <int>& M) {
+void PrintMASSVector(const std::vector <int>& M) {
     for (size_t i = 0; i < M.size(); i++) {
         std::cout << M[i] << ' ';
         std::cout << ' ';
->>>>>>> 30d1fe9bb38233eee140ba01f4161cd76294fa1e
     }
     std::cout << '\n';
 }
 
-<<<<<<< HEAD
-void VstavkaSORT(int* mass, const int& n) {
-=======
-
 // =====1======
 static void VstavkaSORT(std::vector <int>& mass, const int& n) {
->>>>>>> 30d1fe9bb38233eee140ba01f4161cd76294fa1e
     for (int i = 1; i < n; ++i) {
         int t = mass[i];
         int j = i - 1;
@@ -35,13 +32,9 @@ static void VstavkaSORT(std::vector <int>& mass, const int& n) {
         mass[j + 1] = t;
     }
 }
-<<<<<<< HEAD
 
-void bubbleSorter(int* m, const int& n) {
-=======
 // =====2======
 static void bubbleSorter(std::vector <int>& m, const int& n) {
->>>>>>> 30d1fe9bb38233eee140ba01f4161cd76294fa1e
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n - i - 1; j++) {
             if (m[j] > m[j + 1]) {
@@ -52,13 +45,9 @@ static void bubbleSorter(std::vector <int>& m, const int& n) {
         }
     }
 }
-<<<<<<< HEAD
 
-void VSort(int* m, int N) {
-=======
 // =====3======
 static void VSort(std::vector <int>& m, int N) {
->>>>>>> 30d1fe9bb38233eee140ba01f4161cd76294fa1e
     for (int k = 0; k < N; k++) {
 
         int min = m[k];
@@ -77,26 +66,7 @@ static void VSort(std::vector <int>& m, int N) {
         }
     }
 }
-<<<<<<< HEAD
 
-int main() {
-    setlocale(LC_ALL, "RU");
-
-
-    int mass[100];
-    int n;
-
-
-    std::cout << "Введите размер массива: ";
-    std::cin >> n;
-    std::cout << "Введите массив: \n";
-    for (int i = 0; i < n; i++) {
-        std::cin >> mass[i];
-    }
-    bubbleSorter(mass, n);
-    std::cout << "Отсортированный массив: \n";
-    PrintMass(mass, n);
-=======
 // =====4======
 static int partitionHoare(std::vector <int>& arr, int low, int high) {
     int pivot = arr[low + (high - low) / 2];
@@ -161,7 +131,7 @@ static void MASSINPUTRAND(std::vector <int>& arr) {
     std::cout << "Введите размер массива: ";
     std::cin >> n;
     for (int i = 0; i < n; i++) {
-        arr.push_back(rand());
+        arr.push_back((rand())%1500);
     }
 }
 
@@ -246,6 +216,5 @@ int main() {
             break;
         }
     } while (a != 0);
->>>>>>> 30d1fe9bb38233eee140ba01f4161cd76294fa1e
     return 0;
 }
