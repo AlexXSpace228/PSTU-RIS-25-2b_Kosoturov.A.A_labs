@@ -27,21 +27,19 @@ namespace bebe {
 			//TODO: добавьте код конструктора
 			//
 		}
+
+	//хранение 
 	public:
 		std::vector <LABS>* LABMASS;
+
 	private: System::Windows::Forms::Button^ button1;
-
 	private: System::Windows::Forms::Label^ label5;
-
 	private: System::Windows::Forms::Label^ label6;
 	private: System::Windows::Forms::DateTimePicker^ dateTimePicker1;
 	private: System::Windows::Forms::FolderBrowserDialog^ folderBrowserDialog1;
 	private: System::Windows::Forms::TextBox^ textBox2;
 	private: System::Windows::Forms::Button^ button2;
-
-
-
-		   String^ tasks;
+		   
 	protected:
 		/// <summary>
 		/// Освободить все используемые ресурсы.
@@ -54,8 +52,6 @@ namespace bebe {
 			}
 		}
 	private: System::Windows::Forms::TextBox^ textBox1;
-	protected:
-
 	private: System::Windows::Forms::TextBox^ textBox3;
 	private: System::Windows::Forms::Label^ label1;
 	private: System::Windows::Forms::Label^ label2;
@@ -120,8 +116,7 @@ namespace bebe {
 			// label1
 			// 
 			this->label1->AutoSize = true;
-			this->label1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(204)));
+			this->label1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,static_cast<System::Byte>(204)));
 			this->label1->Location = System::Drawing::Point(134, 41);
 			this->label1->Name = L"label1";
 			this->label1->Size = System::Drawing::Size(70, 18);
@@ -217,8 +212,7 @@ namespace bebe {
 			// label5
 			// 
 			this->label5->AutoSize = true;
-			this->label5->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(204)));
+			this->label5->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,static_cast<System::Byte>(204)));
 			this->label5->Location = System::Drawing::Point(86, 203);
 			this->label5->Name = L"label5";
 			this->label5->Size = System::Drawing::Size(142, 18);
@@ -319,21 +313,21 @@ private: System::Void checkBox4_CheckedChanged(System::Object^ sender, System::E
 }
 private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
 	//OK
+	/*
 	LABS m;
 	LABMASS->push_back(m);
-
+	
 	std::ofstream bebebe("SAVE_LABS.txt");
 	bebebe << m.GET_PATH() << '\n';
 	bebebe << m.GET_name() << '\n';
 	//bebebe << m.GET_comm() << '\n';
 	bebebe << m.GET_comm() << '\n';
-
+	*/
 	this->DialogResult = System::Windows::Forms::DialogResult::OK;
 	this->Close();
 }
 private: System::Void textBox4_TextChanged(System::Object^ sender, System::EventArgs^ e) {
 }
-
 private: System::Void textBox2_TextChanged(System::Object^ sender, System::EventArgs^ e) {
 }
 private: System::Void folderBrowserDialog1_HelpRequest(System::Object^ sender, System::EventArgs^ e) {
@@ -349,6 +343,15 @@ private: System::Void dateTimePicker1_ValueChanged(System::Object^ sender, Syste
 
 }
 };
+/*
+=====================================================================================================
+=====================================================================================================
+=====================================================================================================
+=====================================================================================================
+=====================================================================================================
+=====================================================================================================
+=====================================================================================================
+*/
 	public ref class MyForm : public System::Windows::Forms::Form
 	{
 	public:
@@ -391,7 +394,6 @@ private: System::Void dateTimePicker1_ValueChanged(System::Object^ sender, Syste
 
 	private: int currentValue;
 
-
 	private: System::Windows::Forms::ListView^ listView1;
 	private: System::Windows::Forms::ToolStripMenuItem^ ghToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^ helpToolStripMenuItem;
@@ -400,7 +402,6 @@ private: System::Void dateTimePicker1_ValueChanged(System::Object^ sender, Syste
 
 
 	private: System::ComponentModel::IContainer^ components;
-	protected:
 
 	private:
 		/// <summary>
@@ -442,10 +443,7 @@ private: System::Void dateTimePicker1_ValueChanged(System::Object^ sender, Syste
 			this->добавитьРаботуToolStripMenuItem->Size = System::Drawing::Size(112, 20);
 			this->добавитьРаботуToolStripMenuItem->Text = L"Добавить работу";
 			this->добавитьРаботуToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::добавитьРаботуToolStripMenuItem_Click);
-			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {
-				this->ghToolStripMenuItem,
-					this->helpToolStripMenuItem, this->добавитьРаботуToolStripMenuItem
-			});
+			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {this->ghToolStripMenuItem, this->helpToolStripMenuItem, this->добавитьРаботуToolStripMenuItem });
 			this->menuStrip1->Location = System::Drawing::Point(0, 0);
 			this->menuStrip1->Name = L"menuStrip1";
 			this->menuStrip1->Size = System::Drawing::Size(1041, 24);
@@ -454,8 +452,7 @@ private: System::Void dateTimePicker1_ValueChanged(System::Object^ sender, Syste
 			this->menuStrip1->ItemClicked += gcnew System::Windows::Forms::ToolStripItemClickedEventHandler(this, &MyForm::menuStrip1_ItemClicked);
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(64)),
-				static_cast<System::Int32>(static_cast<System::Byte>(64)));
+			this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(64)),static_cast<System::Int32>(static_cast<System::Byte>(64)));
 			this->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Stretch;
 			this->ClientSize = System::Drawing::Size(1041, 764);
 			this->Controls->Add(this->listView1);
