@@ -198,6 +198,53 @@ static void SORTARR(int* arr, int size) {
 	}
 }
 
+std::vector<int> buildPi(const std::string& pattern) {
+	int m = pattern.size();
+	std::vector<int> pi(m, 0);
+
+	for (int i = 1; i < m; i++) {
+		int j = pi[i - 1];
+
+		while (j > 0 && pattern[i] != pattern[j]) {
+			j = pi[j - 1];
+		}
+
+		if (pattern[i] == pattern[j]) {
+			j++;
+		}
+
+		pi[i] = j;
+	}
+
+	return pi;
+}
+
+int kmpSearch(const std::string& text, const std::string& pattern) {
+	if (pattern.empty()) return 0;
+
+	std::vector<int> pi = buildPi(pattern);
+	int n = text.size();
+	int m = pattern.size();
+
+	int j = 0; // сколько символов совпало
+
+	for (int i = 0; i < n; i++) {
+		while (j > 0 && text[i] != pattern[j]) {
+			j = pi[j - 1];
+		}
+
+		if (text[i] == pattern[j]) {
+			j++;
+		}
+
+		if (j == m) {
+			return i - m + 1;
+		}
+	}
+
+	return -1;
+}
+
 int main() {
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
@@ -213,7 +260,7 @@ int main() {
 	std::cout << "Изначальный список: ";
 	PrintMass(ARR, LEN);
 	do {
-		std::cout << "=================================\n1 - Линейный\n2 - Бинарный\n3 - Интерполяционный\n4 - Прямой поиск подстроки в строке\n5 - Алгоритм Бойера-Мура\n6 - Алгоритм Бойера-Мура-Хорспула\n=================================\n";
+		std::cout << "=================================\n1 - Линейный\n2 - Бинарный\n3 - Интерполяционный\n4 - Прямой поиск подстроки в строке\n5 - Алгоритм Бойера-Мура\n6 - Алгоритм Бойера-Мура-Хорспула\n7 - Кнута–Морриса–Пратта\n=================================\n";
 		if (!(std::cin >> a)) {
 			std::cin.clear();
 			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -297,6 +344,17 @@ int main() {
 			getline(std::cin, key);
 
 			std::cout << "Индекс ключа в строке: " << horspoolSearch(S, key) << std::endl;
+			break;
+		case 7:
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+			std::cout << "Введите строку: ";
+			getline(std::cin, S);
+
+			std::cout << "Введите ключ для поиска: ";
+			getline(std::cin, key);
+
+			std::cout << "Индекс ключа в строке: " << kmpSearch(S, key) << std::endl;
 			break;
 		default:
 			break;
