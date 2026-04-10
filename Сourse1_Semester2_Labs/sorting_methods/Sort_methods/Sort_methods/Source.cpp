@@ -252,7 +252,7 @@ static void MASSINPUTRAND(std::vector <int>& arr) {
 int main() {
     srand(time(NULL));
     setlocale(LC_ALL, "RU");
-    system("color E0");
+    //system("color E0");
 
     int len;
     std::vector <int> mass;

@@ -711,7 +711,7 @@ int main() {
 	system("cls");
 
 	int choice;
-
+	int n;
 	do {
 		std::cout << "\n=== МЕНЮ ===\n";
 		std::cout << "1 - Двусвязный список\n";
@@ -726,7 +726,6 @@ int main() {
 
 		case 1: {
 			List list;
-			int n;
 			std::cout << "Размер: ";
 			std::cin >> n;
 
@@ -744,7 +743,6 @@ int main() {
 
 		case 2: {
 			Lister1 list;
-			int n;
 			std::cout << "Размер: ";
 			std::cin >> n;
 
@@ -781,7 +779,6 @@ int main() {
 		}
 
 		case 4: {
-			int n;
 			std::cout << "Размер очереди: ";
 			std::cin >> n;
 
