@@ -22,26 +22,18 @@ public:
 		model = other.model;
 		cost = other.cost;
 	}
+	void show();
+
 	//сетеры
 	void setmark(std::string MARK) {
 		mark = MARK;
 	}
-	void setmark(std::string MODEL) {
+	void setmodel(std::string MODEL) {
 		model = MODEL;
 	}
-	void setmark(int COST) {
+	void setcost(int COST) {
 		cost = COST;
 	}
-	// гетеры
-	std::string getmark() const{
-		return mark;
-	}
-	std::string getmark() const{
-		return model;
-	}
-	int getcost() const {
-		return cost;
-	}
 
-	~AUTOMOBILE();
+	~AUTOMOBILE() {}
 };
