@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{b910029f-fb31-423e-a3c6-0c73f05aafaf}</ProjectGuid>
-    <RootNamespace>LAB211var</RootNamespace>
+    <ProjectGuid>{1d5f3e19-13a5-4edf-9cd8-fbbb519f8ac5}</ProjectGuid>
+    <RootNamespace>LAB311var</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -126,7 +126,7 @@
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Class_Automobile.h" />
+    <ClInclude Include="class_Money.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

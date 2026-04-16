@@ -20,7 +20,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Class_Automobile.h">
+    <ClInclude Include="class_Money.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
