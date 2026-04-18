@@ -2,7 +2,6 @@
 #include <string>
 #include <clocale>
 #include <limits>
-#include <vector>
 #define NOMINMAX
 #include <windows.h>
 
@@ -110,7 +109,10 @@ static int boyerMooreSearch(std::string text, std::string pattern) {
 	if (textLen == 0 || patternLen == 0) return -1;
 	if (patternLen > textLen) return -1;
 	int CharTable[256];
-	std::vector<int> goodSuffix(patternLen);
+	int* goodSuffix = new int[patternLen];
+	for (int i = 0; i < patternLen; i++) {
+		goodSuffix[i] = patternLen;
+	}
 
 	for (int i = 0; i < 256; i++) {
 		CharTable[i] = patternLen;
@@ -139,7 +141,7 @@ static int boyerMooreSearch(std::string text, std::string pattern) {
 			pos += maxx(badCharShift, goodSuffixShift);
 		}
 	}
-
+	delete[] goodSuffix;
 	return -1;
 }
 
@@ -198,10 +200,12 @@ static void SORTARR(int* arr, int size) {
 	}
 }
 
-std::vector<int> buildPi(const std::string& pattern) {
+int* buildPi(const std::string& pattern)
+{
 	int m = pattern.size();
-	std::vector<int> pi(m, 0);
+	int* pi = new int[m];
 
+	pi[0] = 0;
 	for (int i = 1; i < m; i++) {
 		int j = pi[i - 1];
 
@@ -222,7 +226,7 @@ std::vector<int> buildPi(const std::string& pattern) {
 int kmpSearch(const std::string& text, const std::string& pattern) {
 	if (pattern.empty()) return 0;
 
-	std::vector<int> pi = buildPi(pattern);
+	int* pi = buildPi(pattern);
 	int n = text.size();
 	int m = pattern.size();
 
@@ -241,7 +245,7 @@ int kmpSearch(const std::string& text, const std::string& pattern) {
 			return i - m + 1;
 		}
 	}
-
+	delete[] pi;
 	return -1;
 }
 

@@ -35,36 +35,24 @@ void SetStack(Stack<T>& tmp)
 template<class T>
 void Push(Stack<T>& tmp, const T& data)
 {
-	//Создается новый узел
 	FODE<T>* new_node;
 
-	//Устанавливаются его поля, при помощи функции SetNode
-	//Параметр data - то что добавляется
-	//Поле next_ptr должно указывать на верхушку стека
-	SetFODE(new_node, data, tmp.head);
-
-	//Теперь голова стека, является новым узлом
 	tmp.head = new_node;
-	//Изменение поля размер
 	tmp.size++;
 };
 
 template <class T>
 void PopS(Stack<T>& tmp)
 {
-	//Если есть что удалять
+
 	if (tmp.head != nullptr)
 	{
-		//Запоминаем адрес текущей головы
-		FODE<T>* delete_element = tmp.head;
 
-		//Перемещаем голову на следующий узел
+		FODE<T>* delete_element = tmp.head;
 		tmp.head = tmp.head->next_ptr;
 
-		//Освобождаем ресурсы
 		delete delete_element;
 
-		//Изменяем поле размер
 		tmp.size--;
 	}
 };
@@ -800,6 +788,7 @@ int main() {
 
 		default:
 			std::cout << "Ошибка выбора\n";
+			break;
 		}
 
 	} while (choice != 0);
