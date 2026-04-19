@@ -35,8 +35,9 @@ void SetStack(Stack<T>& tmp)
 template<class T>
 void Push(Stack<T>& tmp, const T& data)
 {
-	FODE<T>* new_node;
-
+	FODE<T>* new_node = new FODE<T>();
+	new_node->data = data;
+	new_node->next_ptr = tmp.head;
 	tmp.head = new_node;
 	tmp.size++;
 };
@@ -693,101 +694,169 @@ Queue* CreateQueue(int size)
 }
 
 int main() {
-
 	setlocale(LC_ALL, "RU");
 	system("chcp 1251");
 	system("cls");
 
 	int choice;
 	int n;
+	std::string key;
+
 	do {
-		std::cout << "\n=== МЕНЮ ===\n";
-		std::cout << "1 - Двусвязный список\n";
-		std::cout << "2 - Односвязный список\n";
-		std::cout << "3 - Стек\n";
-		std::cout << "4 - Очередь\n";
-		std::cout << "0 - Выход\n";
-		std::cout << "Выбор: ";
+		std::cout << "\n==============================\n";
+		std::cout << "      СТРУКТУРЫ ДАННЫХ\n";
+		std::cout << "==============================\n";
+		std::cout << "1. Двусвязный список\n";
+		std::cout << "2. Односвязный список\n";
+		std::cout << "3. Стек\n";
+		std::cout << "4. Очередь\n";
+		std::cout << "0. Выход\n";
+		std::cout << "==============================\n";
+		std::cout << "Ваш выбор: ";
 		std::cin >> choice;
 
 		switch (choice) {
 
 		case 1: {
+			std::cout << "\n--- ДВУСВЯЗНЫЙ СПИСОК ---\n";
 			List list;
-			std::cout << "Размер: ";
+			std::cout << "Создание списка. Введите количество элементов: ";
 			std::cin >> n;
-
 			FillList(list, n);
+
+			std::cout << "\n[ Исходный список ]: "; PrintList(list);
+
+			std::cout << "\n[+] PushFront (Добавляем \"START\" в начало)...\n";
+			PushFront(list, "START");
 			PrintList(list);
 
-			std::cout << "Удаление по ключу: ";
-			std::string key;
+			std::cout << "\n[+] PushBack (Добавляем \"END\" в конец)...\n";
+			PushBack(list, "END");
+			PrintList(list);
+
+			std::cout << "\n[+] InsertByIndex (Вставляем \"MID\" на 2-ю позицию)...\n";
+			InsertByIndex(list, "MID", 2);
+			PrintList(list);
+
+			std::cout << "\n[+] InsertByKey (Вставляем \"NEXT\" после ключа \"MID\")...\n";
+			InsertByKey(list, "NEXT", "MID");
+			PrintList(list);
+
+			std::cout << "\n[-] PopFront (Удаляем первый элемент)...\n";
+			PopFront(list);
+			PrintList(list);
+
+			std::cout << "\n[-] PopBack (Удаляем последний элемент)...\n";
+			PopBack(list);
+			PrintList(list);
+
+			std::cout << "\n[-] POPByIndex (Удаляем элемент под индексом 1)...\n";
+			POPByIndex(list, 1);
+			PrintList(list);
+
+			std::cout << "\n[-] DeleteEl (Введите точный ключ для удаления): ";
 			std::cin >> key;
 			DeleteEl(list, key);
+			std::cout << "[ Результат ]: "; PrintList(list);
 
-			PrintList(list);
 			break;
 		}
 
 		case 2: {
-			Lister1 list;
-			std::cout << "Размер: ";
+			std::cout << "\n--- ОДНОСВЯЗНЫЙ СПИСОК ---\n";
+			Lister1 list1;
+			std::cout << "Создание списка. Введите количество элементов: ";
 			std::cin >> n;
+			FillList11(list1, n);
 
-			FillList11(list, n);
-			PrintList11(list);
+			std::cout << "\n[ Исходный список ]: "; PrintList11(list1);
 
-			std::cout << "Удаление по ключу: ";
-			std::string key;
+			std::cout << "\n[+] PushFront1 (Добавляем \"FIRST\" в начало)...\n";
+			PushFront1(list1, "FIRST");
+			PrintList11(list1);
+
+			std::cout << "\n[+] pushBACKone (Добавляем \"LAST\" в конец)...\n";
+			pushBACKone(list1, "LAST");
+			PrintList11(list1);
+
+			std::cout << "\n[-] popFRONTone (Удаляем первый элемент)...\n";
+			popFRONTone(list1);
+			PrintList11(list1);
+
+			std::cout << "\n[-] PopBackone (Удаляем последний элемент)...\n";
+			PopBackone(list1);
+			PrintList11(list1);
+
+			std::cout << "\n[-] DeleteEl11 (Введите ключ для удаления): ";
 			std::cin >> key;
-			DeleteEl11(list, key);
+			DeleteEl11(list1, key);
+			std::cout << "[ Результат ]: "; PrintList11(list1);
 
-			PrintList11(list);
 			break;
 		}
 
 		case 3: {
+			std::cout << "\n--- СТЕК (LIFO) ---\n";
 			Stack<std::string> s;
-			SetStack(s); // ОБЯЗАТЕЛЬНО
+			SetStack(s);
 
-			Push(s, std::string("Aff"));
-			Push(s, std::string("ggy"));
-			Push(s, std::string("KKK"));
+			std::cout << "[+] Добавляем элементы: \"C++\", \"is\", \"Awesome\"\n";
+			Push(s, std::string("C++"));
+			Push(s, std::string("is"));
+			Push(s, std::string("Awesome"));
 
-			std::cout << "Стек:\n";
+			std::cout << "[ Текущий стек ]: ";
 			PrintStack(s);
 
-			std::cout << "Pop...\n";
+			std::cout << "\n[-] PopS (Снимаем верхний элемент)...\n";
 			PopS(s);
+			std::cout << "[ Результат ]: ";
+			PrintStack(s);
 
-			std::cout << "После удаления:\n";
+			std::cout << "\n[-] PopS (Снимаем еще один)...\n";
+			PopS(s);
+			std::cout << "[ Результат ]: ";
 			PrintStack(s);
 
 			break;
 		}
 
 		case 4: {
-			std::cout << "Размер очереди: ";
+			std::cout << "\n--- ОЧЕРЕДЬ (FIFO) ---\n";
+			std::cout << "Укажите стартовый размер очереди: ";
 			std::cin >> n;
 
 			Queue* q = CreateQueue(n);
+			std::cout << "\n[ Исходная очередь ]: "; PrintQueue(q);
 
-			std::cout << "Удалить элемент по ключу: ";
-			std::string k;
-			std::cin >> k;
+			std::cout << "\n[+] AddElements (Добавление новых элементов внутрь)\n";
+			std::cout << "Сколько элементов добавить? ";
+			int count, pos;
+			std::cin >> count;
+			std::cout << "Начиная с какой позиции? ";
+			std::cin >> pos;
+			AddElements(q, count, pos);
+			std::cout << "[ После добавления ]: "; PrintQueue(q);
 
-			RemoveElement(q, k);
+			std::cout << "\n[-] RemoveElement (Удаление по ключу)\n";
+			std::cout << "Введите ключ для удаления: ";
+			std::cin >> key;
+			RemoveElement(q, key);
+			std::cout << "[ После удаления ]: "; PrintQueue(q);
 
-			PrintQueue(q);
+			std::cout << "\n[-] QPop (Извлечение элемента из начала очереди)...\n";
+			QPop(q);
+			std::cout << "[ Итоговая очередь ]: "; PrintQueue(q);
+
 			break;
 		}
 
 		case 0:
-			std::cout << "Выход...\n";
+			std::cout << "Завершение программы...\n";
 			break;
 
 		default:
-			std::cout << "Ошибка выбора\n";
+			std::cout << "Ошибка: Неверный пункт меню. Попробуйте снова.\n";
 			break;
 		}
 

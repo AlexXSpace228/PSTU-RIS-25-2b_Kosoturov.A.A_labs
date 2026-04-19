@@ -2,7 +2,6 @@
 #include <string>
 #include <fstream>
 #include <cstdlib>
-#include <vector>
 #include <algorithm>
 #include <ctime>
 #include <clocale>
@@ -12,13 +11,6 @@
 void PrintMass(int* m, int n) {
     for (int i = 0; i < n; i++) {
         std::cout << m[i] << ' ';
-    }
-}
-
-void PrintMASSVector(const std::vector <int>& M) {
-    for (size_t i = 0; i < M.size(); i++) {
-        std::cout << M[i] << ' ';
-        std::cout << ' ';
     }
     std::cout << '\n';
 }
@@ -32,7 +24,7 @@ void GenerateFile(const std::string& path, int n) {
 }
 
 // =====1======
-static void VstavkaSORT(std::vector <int>& mass, const int& n) {
+static void VstavkaSORT(int* mass, const int n) {
     for (int i = 1; i < n; ++i) {
         int t = mass[i];
         int j = i - 1;
@@ -45,7 +37,7 @@ static void VstavkaSORT(std::vector <int>& mass, const int& n) {
 }
 
 // =====2======
-static void bubbleSorter(std::vector <int>& m, const int& n) {
+static void bubbleSorter(int* m, const int n) {
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n - i - 1; j++) {
             if (m[j] > m[j + 1]) {
@@ -58,18 +50,16 @@ static void bubbleSorter(std::vector <int>& m, const int& n) {
 }
 
 // =====3======
-static void ViborSort(std::vector <int>& m, int N) {
+static void ViborSort(int* m, int N) {
     for (int k = 0; k < N; k++) {
-
         int min = m[k];
-        int j = 0;
+        int j = k;
         for (int i = k + 1; i < N; i++) {
             if (m[i] < min) {
                 min = m[i];
                 j = i;
             }
         }
-
         if (min != m[k]) {
             int Pint = m[k];
             m[k] = min;
@@ -79,36 +69,29 @@ static void ViborSort(std::vector <int>& m, int N) {
 }
 
 // =====4======
-static int partitionHoare(std::vector <int>& arr, int low, int high) {
+static int partitionHoare(int* arr, int low, int high) {
     int pivot = arr[low + (high - low) / 2];
     int i = low - 1;
     int j = high + 1;
 
-    while (true)
-    {
+    while (true) {
         do { i++; } while (arr[i] < pivot);
-
         do { j--; } while (arr[j] > pivot);
-
         if (i >= j) return j;
-
         std::swap(arr[i], arr[j]);
     }
 }
 
-static void quickSortHoare(std::vector <int>& arr, int low, int high)
-{
-    if (low < high)
-    {
+static void quickSortHoare(int* arr, int low, int high) {
+    if (low < high) {
         int pI = partitionHoare(arr, low, high);
-
         quickSortHoare(arr, low, pI);
         quickSortHoare(arr, pI + 1, high);
     }
 }
-// =====5======
-static void shellSort(std::vector <int>& arr, int size) {
 
+// =====5======
+static void shellSort(int* arr, int size) {
     for (int step = size / 2; step > 0; step /= 2) {
         for (int i = step; i < size; i++) {
             int temp = arr[i];
@@ -120,15 +103,15 @@ static void shellSort(std::vector <int>& arr, int size) {
         }
     }
 }
+
 // =====6======
-static int partitionLomuto(std::vector <int>& arr, int low, int high) {
+static int partitionLomuto(int* arr, int low, int high) {
     int pI = high;
     int pivot = arr[pI];
     for (int j = low; j < pI; j++) {
         if (arr[j] > pivot) {
             std::swap(arr[pI - 1], arr[j]);
             std::swap(arr[pI], arr[pI - 1]);
-
             pI--;
             j--;
         }
@@ -136,43 +119,47 @@ static int partitionLomuto(std::vector <int>& arr, int low, int high) {
     return pI;
 }
 
-// =====7======
+static void quickSortLomuto(int* arr, int low, int high) {
+    if (low < high) {
+        int p = partitionLomuto(arr, low, high);
+        quickSortLomuto(arr, low, p - 1);
+        quickSortLomuto(arr, p + 1, high);
+    }
+}
 
+// =====7======
 void Distribution(std::string path1, std::string path2, std::string main_path) {
-    std::ofstream f1, f2;
-    std::ifstream mainf;
+    std::ofstream f1(path1), f2(path2);
+    std::ifstream mainf(main_path);
     std::string temp, cur;
     int itemp, icur;
-    f1.open(path1);
-    f2.open(path2);
-    mainf.open(main_path);
+
     if (!f1.is_open() || !f2.is_open()) {
         std::cout << "Error" << std::endl;
+        return;
     }
-    else {
-        bool firstfile = true;
-        mainf >> cur;
+
+    bool firstfile = true;
+    if (mainf >> cur) {
         while (!mainf.eof()) {
             if (firstfile) {
                 f1 << cur << '\n';
                 temp = cur;
-                mainf >> cur;
-                if (mainf.eof()) {
+                if (!(mainf >> cur)) {
                     f1 << '/' << '\n';
                     return;
                 }
-                itemp = stoi(temp);
-                icur = stoi(cur);
+                itemp = std::stoi(temp);
+                icur = std::stoi(cur);
                 while (itemp <= icur) {
-                    if (mainf.eof()) {
+                    f1 << cur << '\n';
+                    temp = cur;
+                    if (!(mainf >> cur)) {
                         f1 << '/' << '\n';
                         return;
                     }
-                    f1 << cur << '\n';
-                    temp = cur;
-                    mainf >> cur;
-                    itemp = stoi(temp);
-                    icur = stoi(cur);
+                    itemp = std::stoi(temp);
+                    icur = std::stoi(cur);
                 }
                 f1 << '/' << '\n';
                 firstfile = false;
@@ -180,31 +167,27 @@ void Distribution(std::string path1, std::string path2, std::string main_path) {
             else {
                 f2 << cur << '\n';
                 temp = cur;
-                mainf >> cur;
-                if (mainf.eof()) {
+                if (!(mainf >> cur)) {
                     f2 << '/' << '\n';
                     return;
                 }
-                itemp = stoi(temp);
-                icur = stoi(cur);
+                itemp = std::stoi(temp);
+                icur = std::stoi(cur);
                 while (itemp <= icur) {
-                    if (mainf.eof()) {
-                        f2 << '/' << '\n';
-                    }
                     f2 << cur << '\n';
                     temp = cur;
-                    mainf >> cur;
-                    itemp = stoi(temp);
-                    icur = stoi(cur);
+                    if (!(mainf >> cur)) {
+                        f2 << '/' << '\n';
+                        return;
+                    }
+                    itemp = std::stoi(temp);
+                    icur = std::stoi(cur);
                 }
                 f2 << '/' << '\n';
                 firstfile = true;
             }
         }
     }
-    f1.close();
-    f2.close();
-    mainf.close();
 }
 
 void Merge(std::string path1, std::string path2, std::string main_path) {
@@ -212,12 +195,10 @@ void Merge(std::string path1, std::string path2, std::string main_path) {
     std::ofstream mainf(main_path);
 
     std::string t1, t2;
-
     f1 >> t1;
     f2 >> t2;
 
     while (!f1.eof() || !f2.eof()) {
-
         while (t1 != "/" && t2 != "/") {
             int a = stoi(t1);
             int b = stoi(t2);
@@ -250,193 +231,307 @@ void Merge(std::string path1, std::string path2, std::string main_path) {
 void MergeSortExternal(std::string path1, std::string path2, std::string main_path) {
     while (true) {
         Distribution(path1, path2, main_path);
-
         std::ifstream test(path2);
         if (test.peek() == EOF) break;
-
         test.close();
-
         Merge(path1, path2, main_path);
     }
 }
 
-
 // =====8======
+int splitFile(int iterations) {
+    std::ifstream A("A8.txt");
+    std::ofstream B("B8.txt");
+    std::ofstream C("C8.txt");
 
-/*
-int splitFile(fstream& A, fstream& B, fstream& C, int iterations) {
-    int segments = 1;
+    int segments = 0;
     int counter = 0;
-    bool flag = true;
-
-    A.close(); A.open("A.txt", ios::in);
-    B.close(); B.open("B.txt", ios::out);
-    C.close(); C.open("C.txt", ios::out);
-
+    bool writeToB = true;
     int current_elem;
-    while (A >> current_elem) {
-        if (counter == iterations) {
-            counter = 0;
-            flag = !flag;
-            segments++;
-        }
 
-        if (flag) {
+    while (A >> current_elem) {
+        if (counter == 0) segments++;
+
+        if (writeToB) {
             B << current_elem << ' ';
         }
         else {
             C << current_elem << ' ';
         }
+
         counter++;
+        if (counter == iterations) {
+            counter = 0;
+            writeToB = !writeToB;
+        }
     }
     return segments;
 }
 
-int Merge1(fstream& A, fstream& B, fstream& C, int iterations) {
-    A.close(); A.open("A.txt", ios::out);
-    B.close(); B.open("B.txt", ios::in);
-    C.close(); C.open("C.txt", ios::in);
+int Merge1(int iterations) {
+    std::ofstream A("A8.txt");
+    std::ifstream B("B8.txt");
+    std::ifstream C("C8.txt");
 
-    int counterB = 0, counterC = 0;
     int elementB, elementC;
-    bool flagEnd = false;
-
     bool flagB = static_cast<bool>(B >> elementB);
     bool flagC = static_cast<bool>(C >> elementC);
 
-    while (!flagEnd) {
-        int current_elem;
-        bool flag = false;
+    while (flagB || flagC) {
+        int b_read = 0, c_read = 0;
+        while (b_read < iterations && c_read < iterations && flagB && flagC) {
+            if (elementB <= elementC) {
+                A << elementB << ' ';
+                flagB = static_cast<bool>(B >> elementB);
+                b_read++;
+            }
+            else {
+                A << elementC << ' ';
+                flagC = static_cast<bool>(C >> elementC);
+                c_read++;
+            }
+        }
+        while (b_read < iterations && flagB) {
+            A << elementB << ' ';
+            flagB = static_cast<bool>(B >> elementB);
+            b_read++;
+        }
+        while (c_read < iterations && flagC) {
+            A << elementC << ' ';
+            flagC = static_cast<bool>(C >> elementC);
+            c_read++;
+        }
+    }
 
+    return iterations * 2;
+}
+
+// =====9 Многофазная сортировка======
+void upperFib(int n, int& a, int& b) {
+    while (a + b < n) {
+        int temp = a;
+        a = a + b;
+        b = temp;
+    }
+}
+
+int countSeries(std::fstream& A) {
+    A.close(); A.open("A.txt", std::ios::in);
+    long long INF = 1000000000000000000LL;
+    int current_elem, ret = 0;
+    long long last = -INF;
+    bool flagRead = static_cast<bool>(A >> current_elem);
+    while (flagRead) {
+        while (flagRead && current_elem >= last) {
+            last = current_elem;
+            flagRead = static_cast<bool>(A >> current_elem);
+        }
+        last = -INF;
+        ret++;
+    }
+    return ret;
+}
+
+void splitFilePoly(std::fstream& A, std::fstream& B, std::fstream& C, int first) {
+    long long INF = 1000000000000000000LL;
+    int counter = 0;
+    bool flag = true;
+    A.close(); A.open("A.txt", std::ios::in);
+    B.close(); B.open("B.txt", std::ios::out);
+    C.close(); C.open("C.txt", std::ios::out);
+    int current_elem;
+    long long last = -INF;
+    bool flagRead = static_cast<bool>(A >> current_elem);
+    while (flagRead) {
+        if (counter == first && first != 0) {
+            first = 0;
+            counter = 0;
+            flag = !flag;
+        }
+        if (flag) {
+            while (flagRead && current_elem >= last) {
+                last = current_elem;
+                B << current_elem << ' ';
+                flagRead = static_cast<bool>(A >> current_elem);
+            }
+            last = -INF;
+            B << '/' << ' ';
+        }
+        else {
+            while (flagRead && current_elem >= last) {
+                last = current_elem;
+                C << current_elem << ' ';
+                flagRead = static_cast<bool>(A >> current_elem);
+            }
+            last = -INF;
+            C << '/' << ' ';
+        }
+        counter++;
+    }
+}
+
+std::streampos MergePoly(std::fstream& A, std::fstream& B, std::fstream& C, std::string& big, std::string& lower, std::string& empty, int& a, int& b, int real_b, std::streampos s) {
+    A.close(); B.close(); C.close();
+    A.open(empty, std::ios::out);
+    B.open(big, std::ios::in);
+    C.open(lower, std::ios::in);
+    C.seekg(s);
+    std::string elementB, elementC;
+    bool flagB;
+    bool flagC;
+    int count = 0;
+    bool flagEnd = false;
+    while (count < real_b && !flagEnd) {
+        flagB = static_cast<bool>(B >> elementB);
+        flagC = static_cast<bool>(C >> elementC);
         if (!flagB && !flagC) {
             flagEnd = true;
         }
-        else if (!flagB || counterB == iterations) {
-            current_elem = elementC;
-        }
-        else if (!flagC || counterC == iterations) {
-            current_elem = elementB;
-            flag = true;
-        }
-        else {
-            if (elementB < elementC) {
-                current_elem = elementB;
+        while ((flagB && elementB != "/") || (flagC && elementC != "/")) {
+            int current_elem = 0;
+            bool flag = false;
+            if (!flagB || elementB == "/") {
+                current_elem = std::stoi(elementC);
+            }
+            else if (!flagC || elementC == "/") {
+                current_elem = std::stoi(elementB);
                 flag = true;
             }
             else {
-                current_elem = elementC;
+                if (std::stoi(elementB) < std::stoi(elementC)) {
+                    current_elem = std::stoi(elementB);
+                    flag = true;
+                }
+                else {
+                    current_elem = std::stoi(elementC);
+                }
+            }
+            if (!flagEnd) {
+                A << current_elem << ' ';
+                if (flag) {
+                    flagB = static_cast<bool>(B >> elementB);
+                }
+                else {
+                    flagC = static_cast<bool>(C >> elementC);
+                }
             }
         }
-
-        if (!flagEnd) {
-            A << current_elem << ' ';
-            if (flag) {
-                counterB++;
-                flagB = static_cast<bool>(B >> elementB);
-            }
-            else {
-                counterC++;
-                flagC = static_cast<bool>(C >> elementC);
-            }
-
-            if (counterB == iterations && counterC == iterations) {
-                counterB = 0;
-                counterC = 0;
-            }
-        }
+        A << '/' << ' ';
+        count++;
     }
+    int temp = a;
+    a = b;
+    b = temp - b;
+    std::string temp_name = big;
+    big = empty;
+    empty = lower;
+    lower = temp_name;
 
-    iterations *= 2;
-    return iterations;
-}*/
+    return B.tellg();
+}
 
-static void MASSINPUTRAND(std::vector <int>& arr) {
-    int n;
+
+int* MASSINPUTRAND(int& n) {
     std::cout << "Введите размер массива: ";
     std::cin >> n;
+    if (n <= 0) return nullptr;
+
+    int* arr = new int[n];
     for (int i = 0; i < n; i++) {
-        arr.push_back((rand())%1500);
+        arr[i] = rand() % 1500;
     }
+    return arr;
 }
 
 int main() {
     srand(time(NULL));
     setlocale(LC_ALL, "RU");
-    //system("color E0");
 
     int len;
-    std::vector <int> mass;
+    int* mass = nullptr;
+    int a_menu;
 
-    int a;
     do {
-        std::cout << "======= Методы сортировки =======\n\t1 - Вставкой\n\t2 - Пузырьком\n\t3 - Выбором\n\t4 - Хоара\n\t5 - Шелл\n\t6 - Ломуто\n\t7 - Внешняя сортировка(слиянием)\n\t0 - выход\n=================================\n";
-        if (!(std::cin >> a)) {
+        std::cout << "======= Методы сортировки =======\n"
+            << "\t1 - Вставкой\n\t2 - Пузырьком\n\t3 - Выбором\n\t4 - Хоара\n"
+            << "\t5 - Шелл\n\t6 - Ломуто\n\t7 - Внешняя сортировка (слиянием)\n"
+            << "\t8 - Внешняя сортировка (split/merge)\n\t9 - Многофазная сортировка\n"
+            << "\t0 - выход\n=================================\n";
+
+        if (!(std::cin >> a_menu)) {
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             std::cout << "Ошибка: нужно ввести число\n";
             continue;
         }
-        switch (a) {
-        case 1:
-            MASSINPUTRAND(mass);
-            len = mass.size();
+
+        switch (a_menu) {
+        case 1: {
+            mass = MASSINPUTRAND(len);
+            if (!mass) break;
             std::cout << "Изначальный массив: ";
-            PrintMASSVector(mass);
+            PrintMass(mass, len);
             VstavkaSORT(mass, len);
             std::cout << "Отсортированный массив: ";
-            PrintMASSVector(mass);
-            mass.clear();
+            PrintMass(mass, len);
+            delete[] mass;
             break;
-        case 2:
-            MASSINPUTRAND(mass);
-            len = mass.size();
+        }
+        case 2: {
+            mass = MASSINPUTRAND(len);
+            if (!mass) break;
             std::cout << "Изначальный массив: ";
-            PrintMASSVector(mass);
+            PrintMass(mass, len);
             bubbleSorter(mass, len);
             std::cout << "Отсортированный массив: ";
-            PrintMASSVector(mass);
-            mass.clear();
+            PrintMass(mass, len);
+            delete[] mass;
             break;
-        case 3:
-            MASSINPUTRAND(mass);
-            len = mass.size();
+        }
+        case 3: {
+            mass = MASSINPUTRAND(len);
+            if (!mass) break;
             std::cout << "Изначальный массив: ";
-            PrintMASSVector(mass);
+            PrintMass(mass, len);
             ViborSort(mass, len);
             std::cout << "Отсортированный массив: ";
-            PrintMASSVector(mass);
-            mass.clear();
+            PrintMass(mass, len);
+            delete[] mass;
             break;
-        case 4:
-            MASSINPUTRAND(mass);
-            len = mass.size();
+        }
+        case 4: {
+            mass = MASSINPUTRAND(len);
+            if (!mass) break;
             std::cout << "Изначальный массив: ";
-            PrintMASSVector(mass);
-            quickSortHoare(mass,0,len-1);
+            PrintMass(mass, len);
+            quickSortHoare(mass, 0, len - 1);
             std::cout << "Отсортированный массив: ";
-            PrintMASSVector(mass);
-            mass.clear();
+            PrintMass(mass, len);
+            delete[] mass;
             break;
-        case 5:
-            MASSINPUTRAND(mass);
-            len = mass.size();
+        }
+        case 5: {
+            mass = MASSINPUTRAND(len);
+            if (!mass) break;
             std::cout << "Изначальный массив: ";
-            PrintMASSVector(mass);
+            PrintMass(mass, len);
             shellSort(mass, len);
             std::cout << "Отсортированный массив: ";
-            PrintMASSVector(mass);
-            mass.clear();
+            PrintMass(mass, len);
+            delete[] mass;
             break;
-        case 6:
-            MASSINPUTRAND(mass);
-            len = mass.size();
+        }
+        case 6: {
+            mass = MASSINPUTRAND(len);
+            if (!mass) break;
             std::cout << "Изначальный массив: ";
-            PrintMASSVector(mass);
-            partitionLomuto(mass, 0, len - 1);
+            PrintMass(mass, len);
+            quickSortLomuto(mass, 0, len - 1);
             std::cout << "Отсортированный массив: ";
-            PrintMASSVector(mass);
-            mass.clear();
+            PrintMass(mass, len);
+            delete[] mass;
             break;
+        }
         case 7: {
             std::string main_path = "main.txt";
             std::string f1 = "f1.txt";
@@ -447,17 +542,76 @@ int main() {
             std::cin >> n;
 
             GenerateFile(main_path, n);
-
             std::cout << "Исходный файл создан.\n";
 
             MergeSortExternal(f1, f2, main_path);
-
             std::cout << "Сортировка завершена. Результат в main.txt\n";
+            break;
+        }
+        case 8: {
+            int n;
+            std::cout << "Введите количество элементов: ";
+            std::cin >> n;
+
+            std::ofstream A("A8.txt");
+            for (int i = 0; i < n; ++i) {
+                A << rand() % 101 << ' ';
+            }
+            A.close();
+
+            int iterations = 1;
+            int segments = 0;
+
+            do {
+                segments = splitFile(iterations);
+                if (segments > 1) {
+                    iterations = Merge1(iterations);
+                }
+            } while (segments > 1);
+
+            std::cout << "Готово. Отсортированные данные находятся в файле A8.txt\n";
+            break;
+        }
+        case 9: {
+            int n;
+            std::cout << "Введите количество элементов: ";
+            std::cin >> n;
+            if (n <= 0) break;
+
+            std::fstream A, B, C;
+            A.open("A.txt", std::ios::out);
+            for (int i = 0; i < n; ++i) {
+                int elem = rand() % 101;
+                std::cout << elem << ' ';
+                A << elem << ' ';
+            }
+            std::cout << '\n';
+            A.close();
+
+            int series = countSeries(A);
+            int a = 1, b = 0;
+            upperFib(series, a, b);
+
+            int first = a - (a + b - series);
+            splitFilePoly(A, B, C, first);
+
+            std::string name1 = "B.txt", name2 = "C.txt", name3 = "A.txt";
+            std::streampos s = 0;
+            int real_b = -1;
+
+            while (a != 1 || b != 0) {
+                real_b = (real_b == -1 ? series - first : b);
+                s = MergePoly(A, B, C, name1, name2, name3, a, b, real_b, s);
+            }
+
+            A.close(); B.close(); C.close();
+            std::cout << "Многофазная сортировка завершена. Результат находится в файле " << name1 << "\n";
             break;
         }
         default:
             break;
         }
-    } while (a != 0);
+    } while (a_menu != 0);
+
     return 0;
 }
