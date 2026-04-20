@@ -20,7 +20,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ClassTrial.h">
+    <ClInclude Include="ClassTRIAD.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Class_TIME.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

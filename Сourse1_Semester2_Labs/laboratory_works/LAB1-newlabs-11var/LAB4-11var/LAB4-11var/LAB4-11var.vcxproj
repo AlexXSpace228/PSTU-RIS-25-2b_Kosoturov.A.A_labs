@@ -126,7 +126,8 @@
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ClassTrial.h" />
+    <ClInclude Include="ClassTRIAD.h" />
+    <ClInclude Include="Class_TIME.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
