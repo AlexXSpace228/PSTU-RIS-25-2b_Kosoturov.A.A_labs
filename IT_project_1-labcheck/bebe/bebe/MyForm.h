@@ -1,22 +1,24 @@
 ﻿#pragma once
 #include <fstream>
+//#include "Newtonsoft.Json.h"
 #include <windows.h>
 #include <vector>
-#include "LABS.h"
 
 namespace bebe {
 
 	using namespace System;
+	using namespace System::IO;
 	using namespace System::ComponentModel;
 	using namespace System::Collections;
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
+	using namespace System::Text;
 	using namespace System::Drawing;
 	using namespace Microsoft::VisualBasic;
 	/// <summary>
 	/// Сводка для MyForm
 	/// </summary>
-	
+
 	public ref class MyForm1 : public System::Windows::Forms::Form
 	{
 	public:
@@ -27,11 +29,6 @@ namespace bebe {
 			//TODO: добавьте код конструктора
 			//
 		}
-
-	//хранение 
-	public:
-		std::vector <LABS>* LABMASS;
-
 	private: System::Windows::Forms::Button^ button1;
 	private: System::Windows::Forms::Label^ label5;
 	private: System::Windows::Forms::Label^ label6;
@@ -61,8 +58,6 @@ namespace bebe {
 	private: System::Windows::Forms::CheckBox^ checkBox2;
 	private: System::Windows::Forms::CheckBox^ checkBox3;
 	private: System::Windows::Forms::CheckBox^ checkBox4;
-
-
 	private:
 		/// <summary>
 		/// Обязательная переменная конструктора.
@@ -290,6 +285,7 @@ namespace bebe {
 			this->PerformLayout();
 
 		}
+
 #pragma endregion
 	private: System::Void MyForm1_Load(System::Object^ sender, System::EventArgs^ e) {
 	}
@@ -313,21 +309,14 @@ private: System::Void checkBox4_CheckedChanged(System::Object^ sender, System::E
 }
 private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
 	//OK
-	/*
-	LABS m;
-	LABMASS->push_back(m);
-	
-	std::ofstream bebebe("SAVE_LABS.txt");
-	bebebe << m.GET_PATH() << '\n';
-	bebebe << m.GET_name() << '\n';
-	//bebebe << m.GET_comm() << '\n';
-	bebebe << m.GET_comm() << '\n';
-	*/
+
+
 	this->DialogResult = System::Windows::Forms::DialogResult::OK;
 	this->Close();
 }
 private: System::Void textBox4_TextChanged(System::Object^ sender, System::EventArgs^ e) {
 }
+	   //расположение
 private: System::Void textBox2_TextChanged(System::Object^ sender, System::EventArgs^ e) {
 }
 private: System::Void folderBrowserDialog1_HelpRequest(System::Object^ sender, System::EventArgs^ e) {
@@ -339,9 +328,25 @@ private: System::Void button2_Click(System::Object^ sender, System::EventArgs^ e
 		textBox2->Text = folderBrowserDialog1->SelectedPath;
 	}
 }
+	   //дедлайн
 private: System::Void dateTimePicker1_ValueChanged(System::Object^ sender, System::EventArgs^ e) {
 
 }
+
+public:
+	TextBox^ gettextBox1() {
+		return textBox1;
+	}
+	TextBox^ gettextBox3() {
+		return textBox3;
+	}
+	TextBox^ gettextBox2() {
+		return textBox2;
+	}
+	DateTimePicker^ getdateTimePicker1() {
+		return dateTimePicker1;
+	}
+
 };
 /*
 =====================================================================================================
@@ -376,7 +381,7 @@ private: System::Void dateTimePicker1_ValueChanged(System::Object^ sender, Syste
 			item1->SubItems->Add("ааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааа");
 
 			listView1->Items->Add(item1);
-
+			LoadListViewFromJsonSimple(listView1, "1tgf.json");
 		}
 
 	protected:
@@ -391,6 +396,122 @@ private: System::Void dateTimePicker1_ValueChanged(System::Object^ sender, Syste
 			}
 		}
 
+	public:
+		static String^ JsonEscape(String^ str)
+		{
+			return str->Replace("\\", "\\\\")->Replace("\"", "\\\"");
+		}
+
+		// Обратное экранирование строки
+		static String^ UnescapeJson(String^ str)
+		{
+			if (String::IsNullOrEmpty(str))
+				return str;
+
+			return str->Replace("\\\"", "\"")->Replace("\\\\", "\\");
+		}
+
+		static void LoadListViewFromJsonSimple(ListView^ listView, String^ filePath)
+		{
+			try
+			{
+				if (!File::Exists(filePath))
+				{
+					MessageBox::Show("Файл не найден!", "Ошибка");
+					return;
+				}
+
+				String^ jsonContent = File::ReadAllText(filePath);
+				listView->Items->Clear();
+
+				// Разбиваем на строки
+				array<String^>^ lines = jsonContent->Split('\n');
+
+				for each(String ^ line in lines)
+				{
+					String^ trimmed = line->Trim();
+
+					// Ищем строки с объектами
+					if (trimmed->StartsWith("{") && trimmed->Contains("\"text\":"))
+					{
+						// Извлекаем текст между "text":" и следующей кавычкой
+						int textStart = trimmed->IndexOf("\"text\":\"") + 8;
+						int textEnd = trimmed->IndexOf("\"", textStart);
+						if (textStart > 8 && textEnd > textStart)
+						{
+							String^ mainText = trimmed->Substring(textStart, textEnd - textStart);
+							mainText = UnescapeJson(mainText);
+
+							ListViewItem^ item = gcnew ListViewItem(mainText);
+
+							// Ищем subitems
+							int subStart = trimmed->IndexOf("\"subitems\":[");
+							if (subStart != -1)
+							{
+								int subBegin = trimmed->IndexOf("[", subStart) + 1;
+								int subEnd = trimmed->IndexOf("]", subBegin);
+
+								if (subBegin > subStart && subEnd > subBegin)
+								{
+									String^ subPart = trimmed->Substring(subBegin, subEnd - subBegin);
+									array<String^>^ subItems = subPart->Split(',');
+									for each(String ^ sub in subItems)
+									{
+										String^ cleanSub = sub->Trim()->Trim('"');
+										cleanSub = UnescapeJson(cleanSub);
+										if (!String::IsNullOrEmpty(cleanSub))
+											item->SubItems->Add(cleanSub);
+									}
+								}
+							}
+
+							listView->Items->Add(item);
+						}
+					}
+				}
+
+				MessageBox::Show(String::Format("Загружено {0} элементов!", listView->Items->Count),
+					"Успех");
+			}
+			catch (Exception^ ex)
+			{
+				MessageBox::Show("Ошибка: " + ex->Message);
+			}
+		}
+
+		static void SaveListViewToJsonManual(ListView^ listView, String^ filePath)
+		{
+			StringBuilder^ sb = gcnew StringBuilder();
+			sb->AppendLine("{");
+			sb->AppendLine("  \"items\": [");
+
+			for (int i = 0; i < listView->Items->Count; i++)
+			{
+				ListViewItem^ item = listView->Items[i];
+				sb->Append("    {");
+				sb->Append("\"text\":\"" + JsonEscape(item->Text) + "\"");
+
+				if (item->SubItems->Count > 1)
+				{
+					sb->Append(", \"subitems\":[");
+					for (int j = 1; j < item->SubItems->Count; j++)
+					{
+						sb->Append("\"" + JsonEscape(item->SubItems[j]->Text) + "\"");
+						if (j < item->SubItems->Count - 1) sb->Append(",");
+					}
+					sb->Append("]");
+				}
+
+				sb->Append("}");
+				if (i < listView->Items->Count - 1) sb->Append(",");
+				sb->AppendLine();
+			}
+
+			sb->AppendLine("  ]");
+			sb->AppendLine("}");
+			File::WriteAllText(filePath, sb->ToString());
+		}
+		
 
 	private: int currentValue;
 
@@ -509,10 +630,15 @@ private: System::Void добавитьРаботуToolStripMenuItem_Click(System
 
 		ListViewItem^ item = gcnew ListViewItem(id.ToString());
 
+		item->SubItems->Add(form->gettextBox1()->Text);
+		item->SubItems->Add(" ");
+		item->SubItems->Add(form->getdateTimePicker1()->Text);
+		item->SubItems->Add(form->gettextBox3()->Text);
 		// Цвет лабы в списке
-		item->BackColor = System::Drawing::Color::White;
+		item->BackColor = System::Drawing::Color::Yellow;
 
 		listView1->Items->Add(item);
+		SaveListViewToJsonManual(listView1, "1tgf.json");
 	}
 }
 private: System::Void MyForm_Load(System::Object^ sender, System::EventArgs^ e) {
