@@ -1,21 +1,21 @@
 ﻿#pragma once
 #include <iostream>
 #include <stdexcept>
+
+template <typename T>
 struct Node
 {
-	int value;
-	Node* next;
+	T value;
+	Node<T>* next;
 };
 
-class Iterator
-{
+template <typename T>
+class Iterator {
 private:
-	Node* current;
-
+	Node<T>* current;
 public:
-	Iterator(Node* node) : current(node) {}
-
-	int& operator*() { return current->value; }
+	Iterator(Node<T>* node) : current(node) {}
+	T& operator*() { return current->value; }
 
 	Iterator& operator++()
 	{
@@ -29,27 +29,26 @@ public:
 	}
 };
 
+template <class T>
 class LIST {
 private:
-	Node* head;
+	Node<T>* head;
 	int size;
 public:
 
-	LIST(int s, int k);
+	LIST(int s, T k);
 	LIST(const LIST& a);
 
 	~LIST();
 
-	void pushback(int value);
+	void pushback(T value);
 
-	int& operator[](int inbex);
-	const int& operator[](int inbex) const;
+	T& operator[](int index);
+	const T& operator[](int index) const;
 
 	LIST& operator=(const LIST& a);
 
 	LIST operator+(const LIST& other) const;
-
-	Iterator operator-(int n) const;
 
 	operator int() const
 	{
@@ -59,20 +58,39 @@ public:
 	Iterator begin() const { return Iterator(head); }
 	Iterator end() const { return Iterator(nullptr); }
 
-	friend std::ostream& operator<<(std::ostream& out, const LIST& a);
-	friend std::istream& operator>>(std::istream& in, LIST& a);
+	friend std::ostream& operator<<(std::ostream& out, const LIST& a) {
+		Node<T>* cur = a.head;
+		while (cur)
+		{
+			out << cur->value << " ";
+			cur = cur->next;
+		}
+		return out;
+	}
+	friend std::istream& operator>>(std::istream& in, LIST& a) {
+		Node<T>* cur = a.head;
+		while (cur)
+		{
+			in >> cur->value;
+			cur = cur->next;
+		}
+		return in;
+	}
 };
 
 
 
 
 
-void LIST::pushback(int value) {
-	Node* newnode = new Node{ value, nullptr };
+
+template <typename T>
+void LIST<T>::pushback(T value) {
+	Node<T>* newnode = new Node<T>{ value, nullptr };
+
 	if (!head)
 		head = newnode;
 	else {
-		Node* cur = head;
+		Node<T>* cur = head;
 		while (cur->next) {
 			cur = cur->next;
 		}
@@ -83,22 +101,21 @@ void LIST::pushback(int value) {
 
 
 
-
-
-
-LIST::LIST(int s, int k) {
+template <class T>
+LIST<T>::LIST(int s, T k) {
 	head = nullptr;
 	size = 0;
 	for (int i = 0; i < s; ++i)
 		pushback(k);
 }
 
-LIST::LIST(const LIST& a)
+template <class T>
+LIST<T>::LIST(const LIST& a)
 {
 	head = nullptr;
 	size = 0;
 
-	Node* cur = a.head;
+	Node<T>* cur = a.head;
 	while (cur)
 	{
 		pushback(cur->value);
@@ -110,16 +127,16 @@ LIST::LIST(const LIST& a)
 
 
 
-
-LIST LIST::operator+(const LIST& other) const
+template <class T>
+LIST<T> LIST<T>::operator+(const LIST& other) const
 {
 	if (size != other.size)
 		throw std::length_error("Different sizes");
 
-	LIST result(0, 0);
+	LIST<T> result(0, T());
 
-	Node* a = head;
-	Node* b = other.head;
+	Node<T>* a = head;
+	Node<T>* b = other.head;
 
 	while (a && b)
 	{
@@ -131,51 +148,40 @@ LIST LIST::operator+(const LIST& other) const
 	return result;
 }
 
-LIST& LIST::operator=(const LIST& a) {
+template <class T>
+LIST<T>& LIST<T>::operator=(const LIST& a) {
 	if (this == &a) {
 		return *this;
 	}
 	while (head) {
-		Node* temp = head;
+		Node<T>* temp = head;
 		head = head->next;
 		delete temp;
 	}
 	head = nullptr;
 	size = 0;
-	Node* cur = a.head;
+	Node<T>* cur = a.head;
 	while (cur) {
 		pushback(cur->value);
 		cur = cur->next;
 	}
 	return *this;
 }
-
-Iterator LIST::operator-(int n) const
-{
-	if (n < 0 || n >= size)
-		throw std::out_of_range("Index out of range");
-
-	Iterator it = begin();
-	for (int i = 0; i < n; ++i)
-		++it;
-
-	return it;
-}
-
-const int& LIST::operator[](int index) const {
+template <class T>
+const T& LIST<T>::operator[](int index) const {
 	if (index < 0 || index >= size)
 		throw std::out_of_range("Index out of range");
-	Node* cur = head;
+	Node<T>* cur = head;
 	for (int i = 0; i < index; i++) {
 		cur = cur->next;
 	}
 	return cur->value;
 }
-
-int& LIST::operator[](int index) {
+template <class T>
+T& LIST<T>::operator[](int index) {
 	if (index < 0 || index >= size)
 		throw std::out_of_range("Index out of range");
-	Node* cur = head;
+	Node<T>* cur = head;
 	for (int i = 0; i < index; i++) {
 		cur = cur->next;
 	}
@@ -184,37 +190,10 @@ int& LIST::operator[](int index) {
 
 
 
-
-
-
-std::ostream& operator<<(std::ostream& out, const LIST& a)
-{
-	Node* cur = a.head;
-	while (cur)
-	{
-		out << cur->value << " ";
-		cur = cur->next;
-	}
-	return out;
-}
-
-std::istream& operator>>(std::istream& in, LIST& a)
-{
-	Node* cur = a.head;
-	while (cur)
-	{
-		in >> cur->value;
-		cur = cur->next;
-	}
-	return in;
-}
-
-
-
-
-LIST::~LIST() {
+template <class T>
+LIST<T>::~LIST() {
 	while (head) {
-		Node* Temp = head;
+		Node<T>* Temp = head;
 		head = head->next;
 		delete Temp;
 	}
