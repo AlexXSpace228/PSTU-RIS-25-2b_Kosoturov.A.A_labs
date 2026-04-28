@@ -3,6 +3,7 @@
 //#include "Newtonsoft.Json.h"
 #include <windows.h>
 #include <vector>
+#include <list>
 
 namespace bebe {
 
@@ -10,6 +11,7 @@ namespace bebe {
 	using namespace System::IO;
 	using namespace System::ComponentModel;
 	using namespace System::Collections;
+	using namespace System::Collections::Generic;
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Text;
@@ -18,7 +20,8 @@ namespace bebe {
 	/// <summary>
 	/// Сводка для MyForm
 	/// </summary>
-
+	/// 
+	
 	public ref class MyForm1 : public System::Windows::Forms::Form
 	{
 	public:
@@ -297,27 +300,30 @@ namespace bebe {
 	}
 private: System::Void checkBox1_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
 	//отчет
+	bool Box1 = checkBox1->Checked;
 }
 private: System::Void checkBox2_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
 	//блок схема
+	bool Box2 = checkBox2->Checked;
 }
 private: System::Void checkBox3_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
 	//код
+	bool Box3  = checkBox3->Checked;
 }
 private: System::Void checkBox4_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
 	//idef0
+	bool Box4 = checkBox4->Checked;
 }
 private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
 	//OK
-
-
 	this->DialogResult = System::Windows::Forms::DialogResult::OK;
 	this->Close();
 }
 private: System::Void textBox4_TextChanged(System::Object^ sender, System::EventArgs^ e) {
 }
-	   //расположение
+//расположение
 private: System::Void textBox2_TextChanged(System::Object^ sender, System::EventArgs^ e) {
+	String^ targeter = textBox2->Text;
 }
 private: System::Void folderBrowserDialog1_HelpRequest(System::Object^ sender, System::EventArgs^ e) {
 
@@ -372,15 +378,9 @@ public:
 			listView1->Columns->Add("Статус", 120);
 			listView1->Columns->Add("Дедлайн", 120);
 			listView1->Columns->Add("Комментарий", 250);
-			listView1->Columns->Add("Что нужно сделать: ", 350);
+			listView1->Columns->Add("Что нужно сделать", 250);
+			listView1->Columns->Add("Расположение",120);
 
-			ListViewItem^ item1 = gcnew ListViewItem("1");
-			item1->SubItems->Add("Лаба 0.0 ( test )");
-			item1->SubItems->Add("done");
-			item1->SubItems->Add("01.01.2000");
-			item1->SubItems->Add("ааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааа");
-
-			listView1->Items->Add(item1);
 			LoadListViewFromJsonSimple(listView1, "1tgf.json");
 		}
 
@@ -479,6 +479,22 @@ public:
 			}
 		}
 
+		List<String^>^ GetFilesWithMultipleExtensions(String^ folderPath, array<String^>^ extensions)
+		{
+			List<String^>^ files = gcnew List<String^>();
+
+			for each (String ^ ext in extensions)
+			{
+				array<String^>^ found = Directory::GetFiles(folderPath, ext);
+				for each (String ^ file in found)
+				{
+					files->Add(file);
+				}
+			}
+
+			return files;
+		}
+
 		static void SaveListViewToJsonManual(ListView^ listView, String^ filePath)
 		{
 			StringBuilder^ sb = gcnew StringBuilder();
@@ -502,6 +518,8 @@ public:
 					sb->Append("]");
 				}
 
+
+
 				sb->Append("}");
 				if (i < listView->Items->Count - 1) sb->Append(",");
 				sb->AppendLine();
@@ -511,7 +529,18 @@ public:
 			sb->AppendLine("}");
 			File::WriteAllText(filePath, sb->ToString());
 		}
-		
+		void RemoveSelectedItem(ListView^ listView)
+		{
+			if (listView->SelectedItems->Count > 0)
+			{
+				listView->Items->Remove(listView->SelectedItems[0]);
+				SaveListViewToJsonManual(listView1, "1tgf.json");
+			}
+			else
+			{
+				MessageBox::Show("Выберите элемент для удаления!");
+			}
+		}
 
 	private: int currentValue;
 
@@ -519,6 +548,7 @@ public:
 	private: System::Windows::Forms::ToolStripMenuItem^ ghToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^ helpToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^ добавитьРаботуToolStripMenuItem;
+	private: System::Windows::Forms::ToolStripMenuItem^ УдалитьРаботуToolStripMenuItem;
 	private: System::Windows::Forms::MenuStrip^ menuStrip1;
 
 
@@ -542,6 +572,7 @@ public:
 			this->ghToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->helpToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->добавитьРаботуToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->УдалитьРаботуToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
 			this->menuStrip1->SuspendLayout();
 			this->SuspendLayout();
@@ -564,7 +595,11 @@ public:
 			this->добавитьРаботуToolStripMenuItem->Size = System::Drawing::Size(112, 20);
 			this->добавитьРаботуToolStripMenuItem->Text = L"Добавить работу";
 			this->добавитьРаботуToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::добавитьРаботуToolStripMenuItem_Click);
-			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {this->ghToolStripMenuItem, this->helpToolStripMenuItem, this->добавитьРаботуToolStripMenuItem });
+			this->УдалитьРаботуToolStripMenuItem->Name = L"УдалитьРаботуToolStripMenuItem";
+			this->УдалитьРаботуToolStripMenuItem->Size = System::Drawing::Size(112, 20);
+			this->УдалитьРаботуToolStripMenuItem->Text = L"Удалить работу";
+			this->УдалитьРаботуToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::УдалитьРаботуToolStripMenuItem_Click);
+			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(4) {this->ghToolStripMenuItem, this->helpToolStripMenuItem, this->добавитьРаботуToolStripMenuItem, this->УдалитьРаботуToolStripMenuItem});
 			this->menuStrip1->Location = System::Drawing::Point(0, 0);
 			this->menuStrip1->Name = L"menuStrip1";
 			this->menuStrip1->Size = System::Drawing::Size(1041, 24);
@@ -620,11 +655,13 @@ private: System::Void ghToolStripMenuItem_Click(System::Object^ sender, System::
 private: System::Void helpToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
 	MessageBox::Show("Работа с программой:");
 }
+private: System::Void УдалитьРаботуToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
+	RemoveSelectedItem(listView1);
+}
 private: System::Void добавитьРаботуToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
 	
 	MyForm1^ form = gcnew MyForm1();
-
-	if (form->ShowDialog() == System::Windows::Forms::DialogResult::OK)
+	if (form->ShowDialog() == System::Windows::Forms::DialogResult::OK && form->gettextBox1()->Text != "")
 	{
 		int id = listView1->Items->Count + 1;
 
@@ -634,8 +671,15 @@ private: System::Void добавитьРаботуToolStripMenuItem_Click(System
 		item->SubItems->Add(" ");
 		item->SubItems->Add(form->getdateTimePicker1()->Text);
 		item->SubItems->Add(form->gettextBox3()->Text);
+		item->SubItems->Add("fff");
+		item->SubItems->Add(form->gettextBox2()->Text);
+		array<String^>^ files = gcnew array<String^>{ ".txt", ".doc", ".xls" };
+		List<String^>^ geter = GetFilesWithMultipleExtensions(form->gettextBox2()->Text, files);
+
+		if (geter->Count == 0) {
+			item->BackColor = System::Drawing::Color::Yellow;
+		}
 		// Цвет лабы в списке
-		item->BackColor = System::Drawing::Color::Yellow;
 
 		listView1->Items->Add(item);
 		SaveListViewToJsonManual(listView1, "1tgf.json");
