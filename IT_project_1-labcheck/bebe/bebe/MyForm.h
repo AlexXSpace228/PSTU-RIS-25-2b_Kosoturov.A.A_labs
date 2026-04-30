@@ -1,7 +1,5 @@
 ﻿#pragma once
 #include <fstream>
-//#include "Newtonsoft.Json.h"
-#include <windows.h>
 #include <vector>
 #include <list>
 

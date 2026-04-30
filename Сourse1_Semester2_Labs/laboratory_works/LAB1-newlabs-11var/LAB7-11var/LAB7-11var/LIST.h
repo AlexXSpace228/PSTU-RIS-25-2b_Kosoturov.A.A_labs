@@ -55,8 +55,8 @@ public:
 		return size;
 	}
 
-	Iterator begin() const { return Iterator(head); }
-	Iterator end() const { return Iterator(nullptr); }
+	Iterator<T> begin() const { return Iterator<T>(head); }
+	Iterator<T> end() const { return Iterator<T>(nullptr); }
 
 	friend std::ostream& operator<<(std::ostream& out, const LIST& a) {
 		Node<T>* cur = a.head;
