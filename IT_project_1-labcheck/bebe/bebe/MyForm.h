@@ -350,7 +350,13 @@ public:
 	DateTimePicker^ getdateTimePicker1() {
 		return dateTimePicker1;
 	}
+	bool IsDateLaterThanTodayDateOnly(DateTimePicker^ datePicker)
+	{
+		DateTime selectedDate = datePicker->Value.Date;
+		DateTime todayDate = DateTime::Today;
 
+		return selectedDate > todayDate;
+	}
 };
 /*
 =====================================================================================================
@@ -483,10 +489,15 @@ public:
 
 			for each (String ^ ext in extensions)
 			{
-				array<String^>^ found = Directory::GetFiles(folderPath, ext);
+				array<String^>^ found = Directory::GetFiles(folderPath);
+				
+				MessageBox::Show(
+					found[0]
+				);
 				for each (String ^ file in found)
 				{
 					files->Add(file);
+					
 				}
 			}
 
@@ -515,8 +526,6 @@ public:
 					}
 					sb->Append("]");
 				}
-
-
 
 				sb->Append("}");
 				if (i < listView->Items->Count - 1) sb->Append(",");
@@ -565,7 +574,6 @@ public:
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(MyForm::typeid));
 			this->listView1 = (gcnew System::Windows::Forms::ListView());
 			this->ghToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->helpToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
@@ -574,6 +582,9 @@ public:
 			this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
 			this->menuStrip1->SuspendLayout();
 			this->SuspendLayout();
+			// 
+			// listView1
+			// 
 			this->listView1->HideSelection = false;
 			this->listView1->Location = System::Drawing::Point(0, 27);
 			this->listView1->Name = L"listView1";
@@ -581,37 +592,59 @@ public:
 			this->listView1->TabIndex = 6;
 			this->listView1->UseCompatibleStateImageBehavior = false;
 			this->listView1->SelectedIndexChanged += gcnew System::EventHandler(this, &MyForm::listView1_SelectedIndexChanged);
+			this->listView1->DoubleClick += gcnew System::EventHandler(this, &MyForm::listView1_DoubleClick);
+			// 
+			// ghToolStripMenuItem
+			// 
 			this->ghToolStripMenuItem->Name = L"ghToolStripMenuItem";
 			this->ghToolStripMenuItem->Size = System::Drawing::Size(65, 20);
 			this->ghToolStripMenuItem->Text = L"Справка";
 			this->ghToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::ghToolStripMenuItem_Click);
+			// 
+			// helpToolStripMenuItem
+			// 
 			this->helpToolStripMenuItem->Name = L"helpToolStripMenuItem";
 			this->helpToolStripMenuItem->Size = System::Drawing::Size(44, 20);
 			this->helpToolStripMenuItem->Text = L"Help";
 			this->helpToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::helpToolStripMenuItem_Click);
+			// 
+			// добавитьРаботуToolStripMenuItem
+			// 
 			this->добавитьРаботуToolStripMenuItem->Name = L"добавитьРаботуToolStripMenuItem";
 			this->добавитьРаботуToolStripMenuItem->Size = System::Drawing::Size(112, 20);
 			this->добавитьРаботуToolStripMenuItem->Text = L"Добавить работу";
 			this->добавитьРаботуToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::добавитьРаботуToolStripMenuItem_Click);
+			// 
+			// УдалитьРаботуToolStripMenuItem
+			// 
 			this->УдалитьРаботуToolStripMenuItem->Name = L"УдалитьРаботуToolStripMenuItem";
-			this->УдалитьРаботуToolStripMenuItem->Size = System::Drawing::Size(112, 20);
+			this->УдалитьРаботуToolStripMenuItem->Size = System::Drawing::Size(104, 20);
 			this->УдалитьРаботуToolStripMenuItem->Text = L"Удалить работу";
 			this->УдалитьРаботуToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::УдалитьРаботуToolStripMenuItem_Click);
-			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(4) {this->ghToolStripMenuItem, this->helpToolStripMenuItem, this->добавитьРаботуToolStripMenuItem, this->УдалитьРаботуToolStripMenuItem});
+			// 
+			// menuStrip1
+			// 
+			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(4) {
+				this->ghToolStripMenuItem,
+					this->helpToolStripMenuItem, this->добавитьРаботуToolStripMenuItem, this->УдалитьРаботуToolStripMenuItem
+			});
 			this->menuStrip1->Location = System::Drawing::Point(0, 0);
 			this->menuStrip1->Name = L"menuStrip1";
 			this->menuStrip1->Size = System::Drawing::Size(1041, 24);
 			this->menuStrip1->TabIndex = 9;
 			this->menuStrip1->Text = L"menuStrip1";
 			this->menuStrip1->ItemClicked += gcnew System::Windows::Forms::ToolStripItemClickedEventHandler(this, &MyForm::menuStrip1_ItemClicked);
+			// 
+			// MyForm
+			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(64)),static_cast<System::Int32>(static_cast<System::Byte>(64)));
+			this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(64)),
+				static_cast<System::Int32>(static_cast<System::Byte>(64)));
 			this->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Stretch;
 			this->ClientSize = System::Drawing::Size(1041, 764);
 			this->Controls->Add(this->listView1);
 			this->Controls->Add(this->menuStrip1);
-			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
 			this->MainMenuStrip = this->menuStrip1;
 			this->Name = L"MyForm";
 			this->Text = L"LABTOP";
@@ -659,15 +692,28 @@ private: System::Void УдалитьРаботуToolStripMenuItem_Click(System::
 private: System::Void добавитьРаботуToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
 	
 	MyForm1^ form = gcnew MyForm1();
-	if (form->ShowDialog() == System::Windows::Forms::DialogResult::OK && form->gettextBox1()->Text != "")
+	if (form->ShowDialog() == System::Windows::Forms::DialogResult::OK && form->gettextBox1()->Text != "" && form->IsDateLaterThanTodayDateOnly(form->getdateTimePicker1()))
 	{
-		int id = listView1->Items->Count + 1;
+		int id;
+		if (listView1->Items->Count > 0) {
+			//ListViewItem^ last = gcnew ListViewItem(id.ToString());
+			//listView1->Items[listView1->Items->Count - 1];
+			Int32::TryParse(listView1->Items[listView1->Items->Count - 1]->Text,id);
+			id++;
+		}
+		else {
+			id = listView1->Items->Count + 1;
+		}
 
 		ListViewItem^ item = gcnew ListViewItem(id.ToString());
 
 		item->SubItems->Add(form->gettextBox1()->Text);
 		item->SubItems->Add(" ");
+
 		item->SubItems->Add(form->getdateTimePicker1()->Text);
+		if (form->gettextBox3()->Text == "") {
+			form->gettextBox3()->Text = " ";
+		}
 		item->SubItems->Add(form->gettextBox3()->Text);
 		item->SubItems->Add("fff");
 		item->SubItems->Add(form->gettextBox2()->Text);
@@ -687,6 +733,37 @@ private: System::Void MyForm_Load(System::Object^ sender, System::EventArgs^ e) 
 }
 private: System::Void menuStrip1_ItemClicked(System::Object^ sender, System::Windows::Forms::ToolStripItemClickedEventArgs^ e) {
 
+}
+private: System::Void listView1_DoubleClick(System::Object^ sender, System::EventArgs^ e) {
+	ListView^ listView = (ListView^)sender;
+
+	if (listView->SelectedItems->Count > 0)
+	{
+		ListViewItem^ selectedItem = listView->SelectedItems[0];
+		System::Windows::Forms::DialogResult statusChange = MessageBox::Show(
+			"Название лабораторной: " + selectedItem->SubItems[1]->Text + "\n\n"
+			"Статус выполнения: " + selectedItem->SubItems[2]->Text + "\n"
+			"Срок до: " + selectedItem->SubItems[3]->Text + "\n"
+			"=================================\n"
+			"Комментарий: " + selectedItem->SubItems[4]->Text + "\n"
+			"Что нужно сделать: " + selectedItem->SubItems[5]->Text + "\n"
+			"Расположение файлов:\n" + selectedItem->SubItems[6]->Text + "\n"
+			"=================================\n"
+			"Вы сдали лабораторную работу?\n"
+			"Выберите ОК или Отмена \\/ \\/\n"
+			,
+			"",
+			MessageBoxButtons::OKCancel
+		);
+		if (statusChange == System::Windows::Forms::DialogResult::OK) {
+			selectedItem->SubItems[2]->Text = "done";
+			SaveListViewToJsonManual(listView1, "1tgf.json");
+		}
+		else if (statusChange == System::Windows::Forms::DialogResult::Cancel) {
+			selectedItem->SubItems[2]->Text = "not";
+			SaveListViewToJsonManual(listView1, "1tgf.json");
+		}
+	}
 }
 };
 }
