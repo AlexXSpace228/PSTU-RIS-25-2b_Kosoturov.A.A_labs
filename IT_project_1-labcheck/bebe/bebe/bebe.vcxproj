@@ -127,16 +127,23 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="JsonStorage.cpp" />
     <ClCompile Include="MyForm.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MyForm.h">
+    <ClInclude Include="JsonStorage.h" />
+    <ClInclude Include="LabService.h" />
+    <ClInclude Include="MAIN_Form.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="INPUT_LAB_Form.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="Models.h" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="MyForm.resx">
-      <DependentUpon>MyForm.h</DependentUpon>
+    <EmbeddedResource Include="MAIN_Form.resx">
+      <DependentUpon>MAIN_Form.h</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
