@@ -35,6 +35,10 @@ namespace bebe {
 			listView1->Columns->Add("Комментарий", 250);
 			listView1->Columns->Add("Что нужно сделать", 250);
 			listView1->Columns->Add("Расположение",120);
+			listView1->Columns->Add("BD", 20);
+			listView1->Columns->Add("code", 20);
+			listView1->Columns->Add("report", 20);
+			listView1->Columns->Add("idef", 20);
 
 			JsonStorage::LoadListViewFromJsonSimple(listView1, "1tgf.json");
 		}
@@ -174,8 +178,7 @@ private: System::Void helpToolStripMenuItem_Click(System::Object^ sender, System
 private: System::Void УдалитьРаботуToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
 	JsonStorage::RemoveSelectedItem(listView1, "1tgf.json");
 }
-private: System::Void добавитьРаботуToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
-	
+private: System::Void добавитьРаботуToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {	
 	INPUT_LAB_Form^ form = gcnew INPUT_LAB_Form();
 	if (form->ShowDialog() == System::Windows::Forms::DialogResult::OK && form->gettextBox1()->Text != "" && form->IsDateLaterThanTodayDateOnly(form->getdateTimePicker1()))
 	{
@@ -194,6 +197,49 @@ private: System::Void добавитьРаботуToolStripMenuItem_Click(System
 
 		ListViewItem^ item = gcnew ListViewItem(id.ToString());
 
+		array<String^>^ files = gcnew array<String^>{".drawio", ".txt", ".doc", ".vpd"};
+		List<String^>^ geter = GetFilesWithMultipleExtensions(form->gettextBox2()->Text, files);
+
+		array<String^>^ filesdrawio = gcnew array<String^>{".drawio"};
+		List<String^>^ get_drawio = GetFilesWithMultipleExtensions(form->gettextBox2()->Text, filesdrawio);
+
+		array<String^>^ filestxt = gcnew array<String^>{".txt"};
+		List<String^>^ get_txt = GetFilesWithMultipleExtensions(form->gettextBox2()->Text, filestxt);
+
+		array<String^>^ filesdoc = gcnew array<String^>{".doc"};
+		List<String^>^ get_doc = GetFilesWithMultipleExtensions(form->gettextBox2()->Text, filesdoc);
+
+		array<String^>^ filesvpd = gcnew array<String^>{".vpd"};
+		List<String^>^ get_filesvpd = GetFilesWithMultipleExtensions(form->gettextBox2()->Text, filesvpd);
+
+		String^ WhatToDO = "";
+
+		//if (((get_drawio->Count != 0) == (form->getBlock_diagramm_FLB() == "True")) && ((get_txt->Count != 0) == (form->getCode_FLB() == "True"))&& ((get_doc->Count != 0) == (form->getreport_FLB() == "True"))&& ((get_filesvpd->Count != 0) == (form->getIDEF0_FLB() == "True"))){}
+		if ((get_drawio->Count != 0) && (form->getBlock_diagramm_FLB() == "True") || (get_drawio->Count != 0) && (form->getBlock_diagramm_FLB() == "False")) {
+		}
+		else {
+			item->BackColor = System::Drawing::Color::Yellow;
+			WhatToDO += "Блок схема ";
+		}
+		if ((get_txt->Count != 0) && (form->getCode_FLB() == "True") || (get_txt->Count != 0) && (form->getCode_FLB() == "False")) {
+		}
+		else {
+			item->BackColor = System::Drawing::Color::Yellow;
+			WhatToDO += "Код ";
+		}
+		if ((get_doc->Count != 0) && (form->getreport_FLB() == "True") || (get_doc->Count != 0) && (form->getreport_FLB() == "False")) {
+		}
+		else {
+			item->BackColor = System::Drawing::Color::Yellow;
+			WhatToDO += "Отчет ";
+		}
+		if ((get_filesvpd->Count != 0) && (form->getIDEF0_FLB() == "True") || (get_filesvpd->Count != 0) && (form->getIDEF0_FLB() == "False")) {
+		}
+		else {
+			item->BackColor = System::Drawing::Color::Yellow;
+			WhatToDO += "Idef0";
+		}
+		
 		item->SubItems->Add(form->gettextBox1()->Text);
 		item->SubItems->Add(" ");
 
@@ -202,15 +248,12 @@ private: System::Void добавитьРаботуToolStripMenuItem_Click(System
 			form->gettextBox3()->Text = " ";
 		}
 		item->SubItems->Add(form->gettextBox3()->Text);
-		item->SubItems->Add("fff");
+		item->SubItems->Add(WhatToDO);
 		item->SubItems->Add(form->gettextBox2()->Text);
-		array<String^>^ files = gcnew array<String^>{ ".txt", ".doc", ".xls" };
-		List<String^>^ geter = GetFilesWithMultipleExtensions(form->gettextBox2()->Text, files);
-
-		if (geter->Count == 0) {
-			item->BackColor = System::Drawing::Color::Yellow;
-		}
-		// Цвет лабы в списке
+		item->SubItems->Add(form->getBlock_diagramm_FLB());
+		item->SubItems->Add(form->getCode_FLB());
+		item->SubItems->Add(form->getreport_FLB());
+		item->SubItems->Add(form->getIDEF0_FLB());
 
 		listView1->Items->Add(item);
 		JsonStorage::SaveListViewToJsonManual(listView1, "1tgf.json");
@@ -219,7 +262,6 @@ private: System::Void добавитьРаботуToolStripMenuItem_Click(System
 private: System::Void MyForm_Load(System::Object^ sender, System::EventArgs^ e) {
 }
 private: System::Void menuStrip1_ItemClicked(System::Object^ sender, System::Windows::Forms::ToolStripItemClickedEventArgs^ e) {
-
 }
 private: System::Void listView1_DoubleClick(System::Object^ sender, System::EventArgs^ e)
 {

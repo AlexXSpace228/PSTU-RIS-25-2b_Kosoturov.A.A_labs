@@ -300,19 +300,19 @@ namespace bebe {
 	}
 	private: System::Void report_FLB(System::Object^ sender, System::EventArgs^ e) {
 		//отчет
-		bool Box1 = checkBox1->Checked;
+		char Box1 = checkBox1->Checked;
 	}
 	private: System::Void Block_diagramm_FLB(System::Object^ sender, System::EventArgs^ e) {
 		//блок схема
-		bool Box2 = checkBox2->Checked;
+		char Box2 = checkBox2->Checked;
 	}
 	private: System::Void Code_FLB(System::Object^ sender, System::EventArgs^ e) {
 		//код
-		bool Box3 = checkBox3->Checked;
+		char Box3 = checkBox3->Checked;
 	}
 	private: System::Void IDEF0_FLB(System::Object^ sender, System::EventArgs^ e) {
 		//idef0
-		bool Box4 = checkBox4->Checked;
+		char Box4 = checkBox4->Checked;
 	}
 	private: System::Void OK_button_FLB(System::Object^ sender, System::EventArgs^ e) {
 		//OK
@@ -349,6 +349,19 @@ namespace bebe {
 		TextBox^ gettextBox2() {
 			return textBox2;
 		}
+		String^ getreport_FLB() {
+			return (checkBox1->Checked).ToString();
+		}
+		String^ getBlock_diagramm_FLB() {
+			return (checkBox2->Checked).ToString();
+		}
+		String^ getCode_FLB() {
+			return (checkBox3->Checked).ToString();
+		}
+		String^ getIDEF0_FLB() {
+			return (checkBox4->Checked).ToString();
+		}
+
 		DateTimePicker^ getdateTimePicker1() {
 			return dateTimePicker1;
 		}
