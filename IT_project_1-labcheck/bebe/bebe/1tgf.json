@@ -1,5 +1,6 @@
 {
   "items": [
-    {"text":"1", "subitems":["sdfhg","done","30 мая 2026 г.","hdfghfdh","Блок схема Отчет Idef0","C:\\Users\\Александр\\Desktop\\Новая папка","True","True","True","True"]}
+    {"text":"1", "subitems":["sdfhg","not","30 мая 2026 г.","hdfghfdh","Блок схема Отчет Idef0","C:\\Users\\Александр\\Desktop\\Новая папка","True","True","True","True"]},
+    {"text":"2", "subitems":["Lab-7-OOP","done","5 июня 2026 г.","сделано он нет 1","Блок схема Отчет ","D:\\Документы\\Yandex.Disk\\УЧЕБА\\ИНФА РИС-25-2б\\Лабы - 2 семестр - ооп\\8 лаба","True","True","True","True"]}
   ]
 }

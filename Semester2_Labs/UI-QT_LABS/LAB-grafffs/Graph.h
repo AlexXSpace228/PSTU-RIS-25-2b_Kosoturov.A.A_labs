@@ -1,10 +1,8 @@
 #ifndef GRAPH_H
 #define GRAPH_H
 
-#endif // GRAPH_H
-
 #include <vector>
-#include <QPoint>
+#include <QPointF>
 
 class Edge
 {
@@ -13,23 +11,6 @@ public:
     int to;
     int weight;
 };
-
-/*
-class Graph
-{
-public:
-    std::vector<std::vector<Edge>> adj;
-    void addVertex()
-    {
-        adj.push_back({});
-    }
-    void addEdge(int from, int to, int weight)
-    {
-        adj[from].push_back({to, weight});
-        adj[to].push_back({from, weight});
-    }
-};
-*/
 
 class Vertex
 {
@@ -56,9 +37,16 @@ public:
     void addEdge(int from, int to, int weight);
     void removeEdge(int from, int to);
 
+    void updateEdgeWeight(int from,
+                          int to,
+                          int newWeight);
+
     std::vector<int> bfs(int start);
     std::vector<int> dfs(int start);
 
     std::vector<int> dijkstra(int start);
+
     std::vector<std::vector<int>> floyd();
 };
+
+#endif // GRAPH_H

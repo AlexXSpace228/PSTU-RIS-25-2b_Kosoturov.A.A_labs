@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QGraphicsScene>
+#include "graph.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -16,8 +18,13 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    //drawGraph();
 
 private:
     Ui::MainWindow *ui;
+    QGraphicsScene* scene;
+    Graph graph;
 };
+
+
 #endif // MAINWINDOW_H
