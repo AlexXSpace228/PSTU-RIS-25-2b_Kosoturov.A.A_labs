@@ -15,16 +15,15 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
-public:
-    MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
-    //drawGraph();
-
 private:
     Ui::MainWindow *ui;
     QGraphicsScene* scene;
     Graph graph;
-};
 
+public:
+    MainWindow(QWidget *parent = nullptr);
+    ~MainWindow();
+    void drawGraph();
+};
 
 #endif // MAINWINDOW_H
