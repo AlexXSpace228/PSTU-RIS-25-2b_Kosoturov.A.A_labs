@@ -84,7 +84,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->graphicsView->setMouseTracking(true);
 
-
     //отрисовка графа из лабы - 19 вар
     graph.addVertex(QPointF(300, 300)); //1
     graph.addVertex(QPointF(125, 50));  //2
@@ -111,6 +110,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+/*
 int clickedVertex(QPointF pos)
 {
     for (int i = 0; i < graph.vertices.size(); i++)
@@ -126,6 +126,7 @@ int clickedVertex(QPointF pos)
 
     return -1;
 }
+*/
 
 void MainWindow::mousePressEvent(QMouseEvent *event)
 {
