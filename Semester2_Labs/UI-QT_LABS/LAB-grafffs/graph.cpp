@@ -86,20 +86,15 @@ void Graph::removeVertex(int id)
 
 void Graph::addEdge(int from, int to, int weight)
 {
-    Edge e1;
-    e1.from = from;
-    e1.to = to;
-    e1.weight = weight;
+    Edge e;
 
-    Edge e2;
-    e2.from = to;
-    e2.to = from;
-    e2.weight = weight;
+    e.from = from;
+    e.to = to;
+    e.weight = weight;
 
-    edges.push_back(e1);
+    edges.push_back(e);
 
-    adj[from].push_back(e1);
-    adj[to].push_back(e2);
+    adj[from].push_back(e);
 }
 
 void Graph::removeEdge(int from, int to)
@@ -260,7 +255,6 @@ std::vector<std::vector<int>> Graph::floyd()
     for (Edge e : edges)
     {
         dist[e.from][e.to] = e.weight;
-        dist[e.to][e.from] = e.weight;
     }
 
     for (int k = 0; k < n; k++)

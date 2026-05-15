@@ -144,6 +144,7 @@
   <ItemGroup>
     <EmbeddedResource Include="MAIN_Form.resx">
       <DependentUpon>MAIN_Form.h</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

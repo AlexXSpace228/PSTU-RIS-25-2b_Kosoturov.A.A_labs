@@ -24,6 +24,14 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     void drawGraph();
+private slots:
+    void on_FloydButton_clicked();
+    void on_DFSButton_2_clicked();
+    void on_DijkstraButton_clicked();
+    void on_BFSButton_clicked();
+    void onNewPointButtonclicked();
+    void mousePressEvent(QMouseEvent *event);
+    void onAddEdgeButtonclicked();
 };
 
 #endif // MAINWINDOW_H

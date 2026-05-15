@@ -1,33 +1,36 @@
-﻿#pragma once
-#include <fstream>
-#include <vector>
-#include <list>
+﻿// Подключение форм, JSON-хранилища, бизнес-логики и моделей
 #include "INPUT_LAB_Form.h"
 #include "JsonStorage.h"
 #include "LabService.h"
+#include "Models.h"
 
 namespace bebe {
 
 	using namespace System;
 	using namespace System::IO;
-	using namespace System::ComponentModel;
-	using namespace System::Collections;
 	using namespace System::Collections::Generic;
 	using namespace System::Windows::Forms;
-	using namespace System::Data;
-	using namespace System::Text;
 	using namespace System::Drawing;
-	using namespace Microsoft::VisualBasic;
 	
 	public ref class MAIN_Form : public System::Windows::Forms::Form
 	{
 	public:
 		MAIN_Form(void)
 		{
+			
+			//При запуске формы:
+			//UI таблицы настраивается
+			//Загружаются сохранённые данные
+			//Для каждой записи пересчитывается актуальный статус
+			
 			InitializeComponent();
+
 			listView1->View = View::Details;
 			listView1->FullRowSelect = true;
 			listView1->GridLines = true;
+
+			//Формируется структура таблицы лабораторных работ
+			//Важно: порядок колонок строго соответствует SubItems у ListViewItem
 			listView1->Columns->Add("ID", 50);
 			listView1->Columns->Add("Название", 150);
 			listView1->Columns->Add("Статус", 120);
@@ -40,37 +43,20 @@ namespace bebe {
 			listView1->Columns->Add("report", 20);
 			listView1->Columns->Add("idef", 20);
 
+			//загрузка сохранённых лабораторных работ из JSON-файла при запуске
 			JsonStorage::LoadListViewFromJsonSimple(listView1, "1tgf.json");
+
+			for each(ListViewItem ^ item in listView1->Items)
+			{
+				LabService::UpdateItemStatus(item);
+			}
 		}
 
 	protected:
 		~MAIN_Form()
 		{
-			if (components)
-			{
-				delete components;
-			}
+			if (components) delete components;
 		}
-
-	public:
-		List<String^>^ GetFilesWithMultipleExtensions(String^ folderPath, array<String^>^ extensions)
-		{
-			List<String^>^ files = gcnew List<String^>();
-
-			for each (String ^ ext in extensions)
-			{
-				array<String^>^ found = Directory::GetFiles(folderPath, "*" + ext);
-
-				for each (String ^ file in found)
-				{
-					files->Add(file);
-				}
-			}
-
-			return files;
-		}
-
-	private: int currentValue;
 
 	private: System::Windows::Forms::ListView^ listView1;
 	private: System::Windows::Forms::ToolStripMenuItem^ ghToolStripMenuItem;
@@ -81,6 +67,7 @@ namespace bebe {
 	private: System::ComponentModel::IContainer^ components;
 
 #pragma region Windows Form Designer generated code
+		   // ... UI код (без логики)
 
 		void InitializeComponent(void)
 		{
@@ -147,9 +134,20 @@ namespace bebe {
 
 		}
 #pragma endregion
+// === АВТО-RESIZE LISTVIEW ===
+
+private: System::Void listView1_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) { }
+
+private: System::Void MyForm_Load(System::Object^ sender, System::EventArgs^ e) { }
+
+private: System::Void menuStrip1_ItemClicked(System::Object^ sender, System::Windows::Forms::ToolStripItemClickedEventArgs^ e) { }
+
+private: System::Void helpToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) { MessageBox::Show("Работа с программой:"); }
+
+private: System::Void УдалитьРаботуToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) { JsonStorage::RemoveSelectedItem(listView1, "1tgf.json"); }
+
 private: System::Void MyForm_Resize(System::Object^ sender, System::EventArgs^ e) {
 	int margin = 5;
-
 	listView1->SetBounds(
 		margin,
 		menuStrip1->Height + margin,
@@ -157,9 +155,7 @@ private: System::Void MyForm_Resize(System::Object^ sender, System::EventArgs^ e
 		this->ClientSize.Height - menuStrip1->Height - 2 * margin
 	);
 }
-private: System::Void listView1_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
 
-}
 private: System::Void ghToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
 	MessageBox::Show(
 		"Это программа для учета лабораторных работ.\n\n"
@@ -172,17 +168,32 @@ private: System::Void ghToolStripMenuItem_Click(System::Object^ sender, System::
 		MessageBoxIcon::Information
 	);
 }
-private: System::Void helpToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
-	MessageBox::Show("Работа с программой:");
-}
-private: System::Void УдалитьРаботуToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
-	JsonStorage::RemoveSelectedItem(listView1, "1tgf.json");
-}
+
+//Обработчик : добавление лабораторной работы
 private: System::Void добавитьРаботуToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {	
+
+	//Этот метод реализует полный цикл :
+	//ввод ---> валидация ---> проверка файлов ---> формирование записи ---> сохранение
+
+	/*
+	Основная логика
+	Открывается форма ввода : INPUT_LAB_Form, пользователь вводит данные лабораторной
+	Проверяется корректность ввода : форма закрыта с OK, название не пустое, дедлайн не раньше текущей даты
+	*/
+
 	INPUT_LAB_Form^ form = gcnew INPUT_LAB_Form();
 	if (form->ShowDialog() == System::Windows::Forms::DialogResult::OK && form->gettextBox1()->Text != "" && form->IsDateLaterThanTodayDateOnly(form->getdateTimePicker1()))
 	{
 		int maxId = 0;
+
+		/*
+		Генерация ID
+		Происходит поиск максимального ID среди существующих элементов:
+		перебор всех ListViewItem
+		парсинг item->Text
+		Новый ID = maxId + 1
+		обеспечивает уникальность идентификаторов без базы данных
+		*/
 
 		for each (ListViewItem ^ item in listView1->Items)
 		{
@@ -197,47 +208,52 @@ private: System::Void добавитьРаботуToolStripMenuItem_Click(System
 
 		ListViewItem^ item = gcnew ListViewItem(id.ToString());
 
-		array<String^>^ files = gcnew array<String^>{".drawio", ".txt", ".doc", ".vpd"};
-		List<String^>^ geter = GetFilesWithMultipleExtensions(form->gettextBox2()->Text, files);
-
 		array<String^>^ filesdrawio = gcnew array<String^>{".drawio"};
-		List<String^>^ get_drawio = GetFilesWithMultipleExtensions(form->gettextBox2()->Text, filesdrawio);
+		List<String^>^ get_drawio = LabService::GetFilesWithMultipleExtensions(form->gettextBox2()->Text, filesdrawio);
 
 		array<String^>^ filestxt = gcnew array<String^>{".txt"};
-		List<String^>^ get_txt = GetFilesWithMultipleExtensions(form->gettextBox2()->Text, filestxt);
+		List<String^>^ get_txt = LabService::GetFilesWithMultipleExtensions(form->gettextBox2()->Text, filestxt);
 
-		array<String^>^ filesdoc = gcnew array<String^>{".doc"};
-		List<String^>^ get_doc = GetFilesWithMultipleExtensions(form->gettextBox2()->Text, filesdoc);
+		array<String^>^ filesdoc = gcnew array<String^>{".doc", "docx"};
+		List<String^>^ get_doc = LabService::GetFilesWithMultipleExtensions(form->gettextBox2()->Text, filesdoc);
 
 		array<String^>^ filesvpd = gcnew array<String^>{".vpd"};
-		List<String^>^ get_filesvpd = GetFilesWithMultipleExtensions(form->gettextBox2()->Text, filesvpd);
+		List<String^>^ get_filesvpd = LabService::GetFilesWithMultipleExtensions(form->gettextBox2()->Text, filesvpd);
 
+
+		//Формирование списка “что нужно сделать”
 		String^ WhatToDO = "";
 
-		//if (((get_drawio->Count != 0) == (form->getBlock_diagramm_FLB() == "True")) && ((get_txt->Count != 0) == (form->getCode_FLB() == "True"))&& ((get_doc->Count != 0) == (form->getreport_FLB() == "True"))&& ((get_filesvpd->Count != 0) == (form->getIDEF0_FLB() == "True"))){}
-		if ((get_drawio->Count != 0) && (form->getBlock_diagramm_FLB() == "True") || (get_drawio->Count != 0) && (form->getBlock_diagramm_FLB() == "False")) {
-		}
-		else {
+		//если тип работы требуется (FLB == "True")
+		//но соответствующих файлов нет
+		//--->работа считается неполной
+
+		// Блок схема
+		if (form->getBlock_diagramm_FLB() == "True" && get_drawio->Count == 0)
+		{
 			item->BackColor = System::Drawing::Color::Yellow;
-			WhatToDO += "Блок схема ";
+			WhatToDO += "Блок схема |";
 		}
-		if ((get_txt->Count != 0) && (form->getCode_FLB() == "True") || (get_txt->Count != 0) && (form->getCode_FLB() == "False")) {
-		}
-		else {
+
+		// Код
+		if (form->getCode_FLB() == "True" && get_txt->Count == 0)
+		{
 			item->BackColor = System::Drawing::Color::Yellow;
-			WhatToDO += "Код ";
+			WhatToDO += "Код | ";
 		}
-		if ((get_doc->Count != 0) && (form->getreport_FLB() == "True") || (get_doc->Count != 0) && (form->getreport_FLB() == "False")) {
-		}
-		else {
+
+		// Отчет
+		if (form->getreport_FLB() == "True" && get_doc->Count == 0)
+		{
 			item->BackColor = System::Drawing::Color::Yellow;
-			WhatToDO += "Отчет ";
+			WhatToDO += "Отчет | ";
 		}
-		if ((get_filesvpd->Count != 0) && (form->getIDEF0_FLB() == "True") || (get_filesvpd->Count != 0) && (form->getIDEF0_FLB() == "False")) {
-		}
-		else {
+
+		// IDEF0
+		if (form->getIDEF0_FLB() == "True" && get_filesvpd->Count == 0)
+		{
 			item->BackColor = System::Drawing::Color::Yellow;
-			WhatToDO += "Idef0";
+			WhatToDO += "IDEF0 | ";
 		}
 		
 		item->SubItems->Add(form->gettextBox1()->Text);
@@ -256,13 +272,11 @@ private: System::Void добавитьРаботуToolStripMenuItem_Click(System
 		item->SubItems->Add(form->getIDEF0_FLB());
 
 		listView1->Items->Add(item);
+		//сохранение состояния в JSON:
 		JsonStorage::SaveListViewToJsonManual(listView1, "1tgf.json");
 	}
 }
-private: System::Void MyForm_Load(System::Object^ sender, System::EventArgs^ e) {
-}
-private: System::Void menuStrip1_ItemClicked(System::Object^ sender, System::Windows::Forms::ToolStripItemClickedEventArgs^ e) {
-}
+
 private: System::Void listView1_DoubleClick(System::Object^ sender, System::EventArgs^ e)
 {
 	ListView^ listView = (ListView^)sender;
@@ -288,12 +302,31 @@ private: System::Void listView1_DoubleClick(System::Object^ sender, System::Even
 			"",
 			MessageBoxButtons::OKCancel
 		);
-		if (statusChange == System::Windows::Forms::DialogResult::OK) {
-			selectedItem->SubItems[2]->Text = "done";
+		if (statusChange == System::Windows::Forms::DialogResult::OK)
+		{
+			// Проверяем есть ли незавершенные пункты
+			if (selectedItem->SubItems[Task]->Text != "")
+			{
+				MessageBox::Show(
+					"Не все файлы готовы!\n\n"
+					"Осталось сделать:\n" +
+					selectedItem->SubItems[Task]->Text,
+					"Ошибка"
+				);
+
+				return;
+			}
+
+			selectedItem->SubItems[Status]->Text = "done";
+			selectedItem->BackColor = System::Drawing::Color::LightGreen;
+
 			JsonStorage::SaveListViewToJsonManual(listView1, "1tgf.json");
 		}
-		else if (statusChange == System::Windows::Forms::DialogResult::Cancel) {
-			selectedItem->SubItems[2]->Text = "not";
+		else if (statusChange == System::Windows::Forms::DialogResult::Cancel)
+		{
+			selectedItem->SubItems[Status]->Text = "not";
+			selectedItem->BackColor = System::Drawing::Color::Yellow;
+
 			JsonStorage::SaveListViewToJsonManual(listView1, "1tgf.json");
 		}
 	}
