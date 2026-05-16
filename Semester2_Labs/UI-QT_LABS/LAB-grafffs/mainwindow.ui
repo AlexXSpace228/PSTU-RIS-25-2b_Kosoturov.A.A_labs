@@ -86,7 +86,7 @@
      <string>Floyd</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="AddEdgeButton">
     <property name="geometry">
      <rect>
       <x>440</x>

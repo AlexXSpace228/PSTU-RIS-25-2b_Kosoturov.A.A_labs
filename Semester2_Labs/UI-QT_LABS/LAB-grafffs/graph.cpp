@@ -111,19 +111,6 @@ void Graph::removeEdge(int from, int to)
             ++it;
         }
     }
-
-    for (auto it = adj[to].begin();
-         it != adj[to].end();)
-    {
-        if (it->to == from)
-        {
-            it = adj[to].erase(it);
-        }
-        else
-        {
-            ++it;
-        }
-    }
 }
 
 void Graph::dfsHelper(int v,
@@ -290,18 +277,10 @@ void Graph::updateEdgeWeight(int from,
         }
     }
 
-    for (Edge& e : adj[to])
-    {
-        if (e.to == from)
-        {
-            e.weight = newWeight;
-        }
-    }
-
     for (Edge& e : edges)
     {
-        if ((e.from == from && e.to == to) ||
-            (e.from == to && e.to == from))
+        if (e.from == from &&
+            e.to == to)
         {
             e.weight = newWeight;
         }

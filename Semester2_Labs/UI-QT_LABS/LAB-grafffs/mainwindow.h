@@ -27,11 +27,12 @@ public:
 private slots:
     void on_FloydButton_clicked();
     void on_DFSButton_2_clicked();
-    void on_DijkstraButton_clicked();
     void on_BFSButton_clicked();
-    void onNewPointButtonclicked();
+    void on_DijkstraButton_clicked();
     void mousePressEvent(QMouseEvent *event);
-    void onAddEdgeButtonclicked();
+    int clickedVertex(QPointF pos);
+    void on_AddEdgeButton_clicked();
+    void drawArrow(QGraphicsScene* scene, QPointF p1, QPointF p2);
 };
 
 #endif // MAINWINDOW_H
