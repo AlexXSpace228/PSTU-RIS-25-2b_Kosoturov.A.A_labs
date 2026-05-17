@@ -82,28 +82,28 @@ public:
 		if (!item || item->SubItems->Count < 11)
 			return; //Это защищает программу от ошибок доступа к несуществующим данным.
 
-		String^ path = item->SubItems[6]->Text; //Из колонки Path считывается путь:
+		String^ path = item->SubItems[PAth]->Text; //Из колонки Path считывается путь:
 		bool validPath = !String::IsNullOrWhiteSpace(path) && Directory::Exists(path);
 		//проверяется: путь не пустой, папка существует
 		//Если путь некорректен: статус = "not", задача = "INVALID PATH", строка подсвечивается красным цветом
 		if (!validPath)
 		{
 			item->SubItems[Status]->Text = "not";
-			item->SubItems[5]->Text = "INVALID PATH";
+			item->SubItems[PAth]->Text = "INVALID PATH";
 			item->BackColor = Color::Red;
 			return;
 		}
 		//Из скрытых колонок считываются флаги:нужна ли блок-схема нужен ли код нужен ли отчёт нужен ли IDEF0
-		bool needBD = item->SubItems[7]->Text == "True";
-		bool needCode = item->SubItems[8]->Text == "True";
-		bool needReport = item->SubItems[9]->Text == "True";
-		bool needIdef = item->SubItems[10]->Text == "True";
+		bool needBD = item->SubItems[BD]->Text == "True";
+		bool needCode = item->SubItems[Code]->Text == "True";
+		bool needReport = item->SubItems[Report]->Text == "True";
+		bool needIdef = item->SubItems[IDEF0]->Text == "True";
 		bool hasAnyRequirement = needBD || needCode || needReport || needIdef;
 
 		if (!hasAnyRequirement)
 		{
-			item->SubItems[2]->Text = "not";
-			item->SubItems[5]->Text = "Готово к сдаче";
+			item->SubItems[Status]->Text = "not";
+			item->SubItems[Task]->Text = "Готово к сдаче";
 			item->BackColor = Color::LightYellow;
 			return;
 		}
@@ -140,20 +140,20 @@ public:
 			missing++;
 		}
 
-		item->SubItems[5]->Text = task;
+		item->SubItems[Task]->Text = task;
 
 		if (missing == 0 && hasAnyRequirement && validPath)
 		{
 			// если уже сдано вручную — не трогаем
-			if (item->SubItems[2]->Text == "done")
+			if (item->SubItems[Status]->Text == "done")
 			{
 				item->BackColor = Color::LightGreen;
-				item->SubItems[5]->Text = "Сдано";
+				item->SubItems[Task]->Text = "Сдано";
 			}
 			else
 			{
-				item->SubItems[2]->Text = "not";
-				item->SubItems[5]->Text = "Готово к сдаче";
+				item->SubItems[Status]->Text = "not";
+				item->SubItems[Task]->Text = "Готово к сдаче";
 
 				// мягкий зеленый
 				item->BackColor = Color::LightYellow;
@@ -161,8 +161,8 @@ public:
 		}
 		else
 		{
-			item->SubItems[2]->Text = "not";
-			item->SubItems[5]->Text = task;
+			item->SubItems[Status]->Text = "not";
+			item->SubItems[Task]->Text = task;
 			item->BackColor = Color::Yellow;
 		}
 	}
