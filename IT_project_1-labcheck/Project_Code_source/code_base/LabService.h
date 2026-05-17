@@ -88,7 +88,7 @@ public:
 		//Если путь некорректен: статус = "not", задача = "INVALID PATH", строка подсвечивается красным цветом
 		if (!validPath)
 		{
-			item->SubItems[2]->Text = "not";
+			item->SubItems[Status]->Text = "not";
 			item->SubItems[5]->Text = "INVALID PATH";
 			item->BackColor = Color::Red;
 			return;
@@ -99,12 +99,15 @@ public:
 		bool needReport = item->SubItems[9]->Text == "True";
 		bool needIdef = item->SubItems[10]->Text == "True";
 		bool hasAnyRequirement = needBD || needCode || needReport || needIdef;
+
 		if (!hasAnyRequirement)
 		{
-			item->SubItems[2]->Text = "готово к сдаче, требуется действие пользователя";
-			item->BackColor = Color::Yellow;
+			item->SubItems[2]->Text = "not";
+			item->SubItems[5]->Text = "Готово к сдаче";
+			item->BackColor = Color::LightYellow;
 			return;
 		}
+
 		auto drawio = GetFilesWithMultipleExtensions(path, gcnew array<String^>{".drawio"});
 		auto txt = GetFilesWithMultipleExtensions(path, gcnew array<String^>{".txt"});
 		auto doc = GetFilesWithMultipleExtensions(path, gcnew array<String^>{".doc", ".docx"});
@@ -141,12 +144,25 @@ public:
 
 		if (missing == 0 && hasAnyRequirement && validPath)
 		{
-			item->SubItems[2]->Text = "done";
-			item->BackColor = Color::LightGreen;
+			// если уже сдано вручную — не трогаем
+			if (item->SubItems[2]->Text == "done")
+			{
+				item->BackColor = Color::LightGreen;
+				item->SubItems[5]->Text = "Сдано";
+			}
+			else
+			{
+				item->SubItems[2]->Text = "not";
+				item->SubItems[5]->Text = "Готово к сдаче";
+
+				// мягкий зеленый
+				item->BackColor = Color::LightYellow;
+			}
 		}
 		else
 		{
 			item->SubItems[2]->Text = "not";
+			item->SubItems[5]->Text = task;
 			item->BackColor = Color::Yellow;
 		}
 	}

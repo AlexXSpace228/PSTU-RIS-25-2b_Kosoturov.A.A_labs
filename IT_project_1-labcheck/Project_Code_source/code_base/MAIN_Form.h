@@ -208,71 +208,23 @@ private: System::Void добавитьРаботуToolStripMenuItem_Click(System
 
 		ListViewItem^ item = gcnew ListViewItem(id.ToString());
 
-		array<String^>^ filesdrawio = gcnew array<String^>{".drawio"};
-		List<String^>^ get_drawio = LabService::GetFilesWithMultipleExtensions(form->gettextBox2()->Text, filesdrawio);
-
-		array<String^>^ filestxt = gcnew array<String^>{".txt"};
-		List<String^>^ get_txt = LabService::GetFilesWithMultipleExtensions(form->gettextBox2()->Text, filestxt);
-
-		array<String^>^ filesdoc = gcnew array<String^>{".doc", "docx"};
-		List<String^>^ get_doc = LabService::GetFilesWithMultipleExtensions(form->gettextBox2()->Text, filesdoc);
-
-		array<String^>^ filesvpd = gcnew array<String^>{".vpd"};
-		List<String^>^ get_filesvpd = LabService::GetFilesWithMultipleExtensions(form->gettextBox2()->Text, filesvpd);
-
-
-		//Формирование списка “что нужно сделать”
-		String^ WhatToDO = "";
-
-		//если тип работы требуется (FLB == "True")
-		//но соответствующих файлов нет
-		//--->работа считается неполной
-
-		// Блок схема
-		if (form->getBlock_diagramm_FLB() == "True" && get_drawio->Count == 0)
-		{
-			item->BackColor = System::Drawing::Color::Yellow;
-			WhatToDO += "Блок схема |";
-		}
-
-		// Код
-		if (form->getCode_FLB() == "True" && get_txt->Count == 0)
-		{
-			item->BackColor = System::Drawing::Color::Yellow;
-			WhatToDO += "Код | ";
-		}
-
-		// Отчет
-		if (form->getreport_FLB() == "True" && get_doc->Count == 0)
-		{
-			item->BackColor = System::Drawing::Color::Yellow;
-			WhatToDO += "Отчет | ";
-		}
-
-		// IDEF0
-		if (form->getIDEF0_FLB() == "True" && get_filesvpd->Count == 0)
-		{
-			item->BackColor = System::Drawing::Color::Yellow;
-			WhatToDO += "IDEF0 | ";
-		}
-		
-		item->SubItems->Add(form->gettextBox1()->Text);
-		item->SubItems->Add(" ");
-
+		item->SubItems->Add(form->gettextBox1()->Text); // Title
+		item->SubItems->Add("not");                      // Status (важно!)
 		item->SubItems->Add(form->getdateTimePicker1()->Text);
-		if (form->gettextBox3()->Text == "") {
-			form->gettextBox3()->Text = " ";
-		}
 		item->SubItems->Add(form->gettextBox3()->Text);
-		item->SubItems->Add(WhatToDO);
+		item->SubItems->Add(""); // Task пустой — его заполнит сервис
 		item->SubItems->Add(form->gettextBox2()->Text);
+
+		// флаги
 		item->SubItems->Add(form->getBlock_diagramm_FLB());
 		item->SubItems->Add(form->getCode_FLB());
 		item->SubItems->Add(form->getreport_FLB());
 		item->SubItems->Add(form->getIDEF0_FLB());
 
+		// ВАЖНО: единая точка расчёта логики
+		LabService::UpdateItemStatus(item);
+
 		listView1->Items->Add(item);
-		//сохранение состояния в JSON:
 		JsonStorage::SaveListViewToJsonManual(listView1, "1tgf.json");
 	}
 }
@@ -283,7 +235,7 @@ private: System::Void listView1_DoubleClick(System::Object^ sender, System::Even
 
 	if (listView->SelectedItems->Count > 0)
 	{
-		ListViewItem^ selectedItem = listView->SelectedItems[0];
+		ListViewItem^ selectedItem = listView->SelectedItems[Id];
 
 		LabItem^ lab = LabService::FromListViewItem(selectedItem);
 
@@ -305,7 +257,7 @@ private: System::Void listView1_DoubleClick(System::Object^ sender, System::Even
 		if (statusChange == System::Windows::Forms::DialogResult::OK)
 		{
 			// Проверяем есть ли незавершенные пункты
-			if (selectedItem->SubItems[Task]->Text != "")
+			if (selectedItem->SubItems[Task]->Text != "Готово к сдаче")
 			{
 				MessageBox::Show(
 					"Не все файлы готовы!\n\n"

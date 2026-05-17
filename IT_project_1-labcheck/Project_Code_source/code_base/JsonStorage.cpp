@@ -1,4 +1,5 @@
 ﻿#include "JsonStorage.h"
+#include "Models.h"
 #include <fstream>
 #include <sstream>
 
@@ -140,7 +141,7 @@ void JsonStorage::RemoveSelectedItem(ListView^ listView, String^ filePath)
 	if (listView->SelectedItems->Count > 0)
 	{
 		//Если элемент выбран :
-		listView->Items->Remove(listView->SelectedItems[0]);
+		listView->Items->Remove(listView->SelectedItems[Id]);
 		//Сохранение изменений. Это обновляет JSON-файл и сохраняет новое состояние данных.
 		SaveListViewToJsonManual(listView, filePath);
 	}
