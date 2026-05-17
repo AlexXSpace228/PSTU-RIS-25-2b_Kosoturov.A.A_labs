@@ -1,5 +1,4 @@
-﻿
-#include "lab_12_oop.h"
+﻿#include "lab_12_oop.h"
 
 #include <bits/stdc++.h>
 
