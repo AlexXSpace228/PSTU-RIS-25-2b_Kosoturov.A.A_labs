@@ -26,8 +26,8 @@ public:
     bool operator==(const Money& other) const; // Понадобится для поиска заданного значения
 
     // Добавление копеек (++)
-    Money& operator++();    // Префиксная (++m)
-    Money operator++(int);  // Постфиксная (m++)
+    Money& operator++();    // Префиксная
+    Money operator++(int);  // Постфиксная
 
     // Уменьшение в 2 раза
     Money operator/(int divisor) const;
