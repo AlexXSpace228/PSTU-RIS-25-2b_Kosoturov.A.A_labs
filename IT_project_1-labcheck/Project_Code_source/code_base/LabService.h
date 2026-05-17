@@ -21,7 +21,6 @@ public:
 		//Из каждой колонки ListView считываются данные:
 		//Поле Id хранится как int, поэтому используется: Int32::Parse(...)
         lab->Id = Int32::Parse(item->SubItems[Id]->Text);
-
 		//Остальные значения сохраняются как строки (String^).
         lab->Title = item->SubItems[Title]->Text;
         lab->Status = item->SubItems[Status]->Text;
