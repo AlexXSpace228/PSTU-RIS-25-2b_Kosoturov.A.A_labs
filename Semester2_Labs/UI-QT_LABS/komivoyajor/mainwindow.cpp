@@ -132,100 +132,6 @@ void MainWindow::drawGraph()
 
 }
 
-void MainWindow::on_FloydButton_clicked()
-{
-    qDebug() << "clicked";
-    ui->textEdit->clear();
-
-    auto dist = graph.floyd();
-
-    ui->textEdit->append("Алгоритм Флойда:");
-
-    for (int i = 0; i < dist.size(); i++)
-    {
-        QString line;
-
-        for (int j = 0; j < dist[i].size(); j++)
-        {
-            if (dist[i][j] == INT_MAX)
-            {
-                line += "INF ";
-            }
-            else
-            {
-                line += QString::number(dist[i][j]) + " ";
-            }
-        }
-
-        ui->textEdit->append(line);
-    }
-}
-
-void MainWindow::on_DFSButton_2_clicked()
-{
-    qDebug() << "clicked";
-    ui->textEdit->clear();
-
-    std::vector<int> result = graph.dfs(0);
-
-    QString line = "DFS: ";
-
-    for (int v : result)
-    {
-        line += QString::number(v + 1) + " ";
-    }
-
-    ui->textEdit->append(line);
-}
-
-void MainWindow::on_BFSButton_clicked()
-{
-    qDebug() << "clicked";
-    ui->textEdit->clear();
-
-    std::vector<int> result = graph.bfs(0);
-
-    QString line = "BFS: ";
-
-    for (int v : result)
-    {
-        line += QString::number(v + 1) + " ";
-    }
-
-    ui->textEdit->append(line);
-}
-
-
-void MainWindow::on_DijkstraButton_clicked()
-{
-    qDebug() << "clicked";
-    ui->textEdit->clear();
-
-    std::vector<int> dist = graph.dijkstra(0);
-
-    ui->textEdit->append("Дейкстра от вершины 1:");
-
-    for (int i = 0; i < dist.size(); i++)
-    {
-        QString line;
-
-        line += "До вершины ";
-        line += QString::number(i + 1);
-        line += ": ";
-
-        if (dist[i] == INT_MAX)
-        {
-            line += "INF";
-        }
-        else
-        {
-            line += QString::number(dist[i]);
-        }
-
-        ui->textEdit->append(line);
-    }
-}
-
 int MainWindow::clickedVertex(QPointF pos)
 {
     for (int i = 0; i < graph.vertices.size(); i++)
@@ -311,5 +217,11 @@ void MainWindow::on_AddEdgeButton_clicked()
     ui->textEdit->append(
         "Выберите первую вершину"
         );
+}
+
+
+void MainWindow::on_Voyajor_clicked()
+{
+
 }
 
