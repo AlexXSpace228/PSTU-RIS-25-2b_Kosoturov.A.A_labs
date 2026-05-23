@@ -1,5 +1,5 @@
 #include "graph.h"
-#include <queue>
+
 void Graph::addVertex(QPointF pos)
 {
     Vertex v;
@@ -164,4 +164,90 @@ void Graph::voyajer(){
 
         }
     }
+}
+void Graph::tspHelper(
+    int current,
+    int start,
+    std::vector<bool>& visited,
+    std::vector<int>& path,
+    int currentCost,
+    int& bestCost,
+    std::vector<int>& bestPath)
+{
+    // если все вершины посещены
+    if (path.size() == vertices.size())
+    {
+        for (Edge e : adj[current])
+        {
+            if (e.to == start)
+            {
+                int totalCost = currentCost + e.weight;
+
+                if (totalCost < bestCost)
+                {
+                    bestCost = totalCost;
+
+                    bestPath = path;
+
+                    bestPath.push_back(start);
+                }
+            }
+        }
+
+        return;
+    }
+
+    for (Edge e : adj[current])
+    {
+        int next = e.to;
+
+        if (!visited[next])
+        {
+            visited[next] = true;
+
+            path.push_back(next);
+
+            tspHelper(
+                next,
+                start,
+                visited,
+                path,
+                currentCost + e.weight,
+                bestCost,
+                bestPath
+                );
+
+            visited[next] = false;
+
+            path.pop_back();
+        }
+    }
+}
+
+std::pair<std::vector<int>, int>
+Graph::travellingSalesman(int start)
+{
+    std::vector<bool> visited(vertices.size(), false);
+
+    std::vector<int> path;
+
+    std::vector<int> bestPath;
+
+    int bestCost = INT_MAX;
+
+    visited[start] = true;
+
+    path.push_back(start);
+
+    tspHelper(
+        start,
+        start,
+        visited,
+        path,
+        0,
+        bestCost,
+        bestPath
+        );
+
+    return {bestPath, bestCost};
 }

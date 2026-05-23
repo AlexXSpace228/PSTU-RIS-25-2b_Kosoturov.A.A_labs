@@ -29,7 +29,7 @@ private slots:
     int clickedVertex(QPointF pos);
     void on_AddEdgeButton_clicked();
     void drawArrow(QGraphicsScene* scene, QPointF p1, QPointF p2);
-    void on_Voyajor_clicked();
+    void on_TSPButton_clicked();
 };
 
 #endif // MAINWINDOW_H

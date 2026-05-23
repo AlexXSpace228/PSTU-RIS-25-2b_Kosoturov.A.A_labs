@@ -220,8 +220,28 @@ void MainWindow::on_AddEdgeButton_clicked()
 }
 
 
-void MainWindow::on_Voyajor_clicked()
+void MainWindow::on_TSPButton_clicked()
 {
+    ui->textEdit->clear();
 
+    auto result = graph.travellingSalesman(0);
+
+    std::vector<int> path = result.first;
+
+    int cost = result.second;
+
+    QString line = "Коммивояжер: ";
+
+    for (int v : path)
+    {
+        line += QString::number(v + 1) + " ";
+    }
+
+    ui->textEdit->append(line);
+
+    ui->textEdit->append(
+        "Стоимость: " +
+        QString::number(cost)
+        );
 }
 

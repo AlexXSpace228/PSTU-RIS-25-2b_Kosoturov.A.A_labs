@@ -24,7 +24,7 @@ class Graph
 public:
     std::vector<Vertex> vertices;
     std::vector<Edge> edges;
-
+    std::pair<std::vector<int>, int> travellingSalesman(int start);
     std::vector<std::vector<Edge>> adj;
 
     void addVertex(QPointF pos);
@@ -38,8 +38,15 @@ public:
                           int newWeight);
 
     void voyajer();
+    void tspHelper(
+        int current,
+        int start,
+        std::vector<bool>& visited,
+        std::vector<int>& path,
+        int currentCost,
+        int& bestCost,
+        std::vector<int>& bestPath
+        );
 };
-
-
 
 #endif // GRAPH_H

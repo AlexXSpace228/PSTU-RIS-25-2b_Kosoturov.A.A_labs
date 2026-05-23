@@ -29,7 +29,7 @@
      <rect>
       <x>10</x>
       <y>410</y>
-      <width>591</width>
+      <width>581</width>
       <height>141</height>
      </rect>
     </property>
@@ -47,7 +47,7 @@
      <string>AddEdge</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="Voyajor">
+   <widget class="QPushButton" name="TSPButton">
     <property name="geometry">
      <rect>
       <x>600</x>
