@@ -24,7 +24,7 @@ add_executable(graph_app
         ui_edge.cpp
         mainwindow.h
         mainwindow.cpp
-        adjacency_dialog.h
+
         adjacency_dialog.cpp
 )
 

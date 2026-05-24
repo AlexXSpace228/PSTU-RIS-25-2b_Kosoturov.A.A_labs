@@ -1,7 +1,0 @@
-{
-	"InstallScripts" : 
-	[
-		"/home/admin-debian/CLionProjects/graph_app/build/cmake_install.cmake"
-	],
-	"Parallel" : false
-}
